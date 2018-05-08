@@ -12,7 +12,7 @@ namespace Matchmore.SDK
 {
     #pragma warning disable // Disable all warnings
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.17.3.0 (NJsonSchema v9.10.46.0 (Newtonsoft.Json v9.0.0.0))")]
+    //[System.CodeDom.Compiler.GeneratedCode("NSwag", "11.17.3.0 (NJsonSchema v9.10.46.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class ApiClient : BaseClient
     {
         private string _baseUrl = "https://api.matchmore.io/v5";
@@ -1693,7 +1693,7 @@ namespace Matchmore.SDK
     /// <summary>A device might be either virtual like a pin device or
     /// physical like a mobile phone or iBeacon device.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
     public enum DeviceType
     {
         [System.Runtime.Serialization.EnumMember(Value = "MobileDevice")]
@@ -1714,7 +1714,7 @@ namespace Matchmore.SDK
     [JsonInheritanceAttribute("MobileDevice", typeof(MobileDevice))]
     [JsonInheritanceAttribute("PinDevice", typeof(PinDevice))]
     [JsonInheritanceAttribute("IBeaconDevice", typeof(IBeaconDevice))]
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class Device 
     {
         /// <summary>The id (UUID) of the device.</summary>
@@ -1743,7 +1743,7 @@ namespace Matchmore.SDK
     }
     
     /// <summary>Describes update of device, it allows to change name of device and device token (only in case of mobile devices)</summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class DeviceUpdate 
     {
         /// <summary>New device name (optional)</summary>
@@ -1757,7 +1757,7 @@ namespace Matchmore.SDK
     
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class IBeaconTriple 
     {
         /// <summary>The deviceId of the beacon.
@@ -1787,7 +1787,7 @@ namespace Matchmore.SDK
     
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class Location 
     {
         /// <summary>The timestamp of the location creation in seconds since Jan 01 1970 (UTC).
@@ -1836,7 +1836,7 @@ namespace Matchmore.SDK
     /// The zone is defined as circle with a center at the given
     /// location and a range around that location.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class Publication 
     {
         /// <summary>The id (UUID) of the publication.</summary>
@@ -1893,7 +1893,7 @@ namespace Matchmore.SDK
     /// defined as circle with a center at the given location and a range
     /// around that location.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class Subscription 
     {
         /// <summary>The id (UUID) of the subscription.</summary>
@@ -1962,7 +1962,7 @@ namespace Matchmore.SDK
     }
     
     /// <summary>An object representing a match between a subscription and a publication.</summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class Match 
     {
         /// <summary>The id (UUID) of the match.</summary>
@@ -1982,7 +1982,7 @@ namespace Matchmore.SDK
     
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class APIError 
     {
         [Newtonsoft.Json.JsonProperty("code", Required = Newtonsoft.Json.Required.Always)]
@@ -1997,7 +1997,7 @@ namespace Matchmore.SDK
     /// <summary>A mobile device is one that potentially moves together with its
     /// user and therefore has a geographical location associated with it.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class MobileDevice : Device
     {
         /// <summary>The platform of the device, this can be any string
@@ -2023,7 +2023,7 @@ namespace Matchmore.SDK
     /// <summary>A pin device is one that has geographical location associated with
     /// it but is not represented by any object in the physical world.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class PinDevice : Device
     {
         [Newtonsoft.Json.JsonProperty("location", Required = Newtonsoft.Json.Required.Always)]
@@ -2035,7 +2035,7 @@ namespace Matchmore.SDK
     /// <summary>An iBeacon device represents an Apple conform iBeacon announcing
     /// its presence via Bluetooth advertising packets.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class IBeaconDevice : Device
     {
         /// <summary>The UUID of the beacon, the purpose is to distinguish iBeacons
@@ -2063,7 +2063,7 @@ namespace Matchmore.SDK
     /// <summary>A proximity event is triggered to the core when a mobile device detects
     /// an iBeacon device in his Bluetooth Low Energy(BLE) range.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class ProximityEvent 
     {
         /// <summary>The id (UUID) of the proximity event.</summary>
@@ -2089,13 +2089,13 @@ namespace Matchmore.SDK
     
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
     public partial class Anonymous 
     {
     
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.17.3.0 (NJsonSchema v9.10.46.0 (Newtonsoft.Json v9.0.0.0))")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.17.3.0 (NJsonSchema v9.10.46.0 (Newtonsoft.Json v9.0.0.0))")]
     [System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple = true)]
     internal class JsonInheritanceAttribute : System.Attribute
     {
@@ -2110,7 +2110,7 @@ namespace Matchmore.SDK
         public System.Type Type { get; }
     }
     
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.17.3.0 (NJsonSchema v9.10.46.0 (Newtonsoft.Json v9.0.0.0))")]
+    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.17.3.0 (NJsonSchema v9.10.46.0 (Newtonsoft.Json v9.0.0.0))")]
     internal class JsonInheritanceConverter : Newtonsoft.Json.JsonConverter
     {
         internal static readonly string DefaultDiscriminatorName = "discriminator";
@@ -2223,7 +2223,7 @@ namespace Matchmore.SDK
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.17.3.0 (NJsonSchema v9.10.46.0 (Newtonsoft.Json v9.0.0.0))")]
+    //[System.CodeDom.Compiler.GeneratedCode("NSwag", "11.17.3.0 (NJsonSchema v9.10.46.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class SwaggerException : System.Exception
     {
         public int StatusCode { get; private set; }
@@ -2246,7 +2246,7 @@ namespace Matchmore.SDK
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.17.3.0 (NJsonSchema v9.10.46.0 (Newtonsoft.Json v9.0.0.0))")]
+    //[System.CodeDom.Compiler.GeneratedCode("NSwag", "11.17.3.0 (NJsonSchema v9.10.46.0 (Newtonsoft.Json v9.0.0.0))")]
     public partial class SwaggerException<TResult> : SwaggerException
     {
         public TResult Result { get; private set; }

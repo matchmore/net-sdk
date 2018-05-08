@@ -13,7 +13,7 @@ namespace Matchmore.SDK
         public static readonly string API_VERSION = "v5";
         public static readonly string PRODUCTION = "api.matchmore.io";
         private ApiClient _client;
-        private StateManager _state;
+        private IStateManager _state;
         private string _environment;
         private string _apiKey;
         private bool _secured;
@@ -148,7 +148,7 @@ namespace Matchmore.SDK
                 BaseUrl = ApiUrl
             };
 
-            _state = new StateManager(_environment, config.PersistenceFile);
+            //_state = new StateManager(_environment, config.PersistenceFile);
         }
 
         public async Task<Device> SetupMainDevice()
@@ -227,15 +227,6 @@ namespace Matchmore.SDK
             if (device is IBeaconDevice)
             {
                 var ibeaconDevice = device as IBeaconDevice;
-                if (ibeaconDevice.Major == null)
-                {
-                    throw new ArgumentException("Major required for Ibeacon Device");
-                }
-
-                if (ibeaconDevice.Minor == null)
-                {
-                    throw new ArgumentException("Minor required for Ibeacon Device");
-                }
 
                 if (string.IsNullOrEmpty(ibeaconDevice.Name))
                 {
@@ -386,9 +377,6 @@ namespace Matchmore.SDK
             {
                 throw new ArgumentException("Device Id null or empty");
             }
-
-            if (location.Altitude == null)
-                location.Altitude = 0;
 
             await _client.CreateLocationAsync(deviceId, location);
         }

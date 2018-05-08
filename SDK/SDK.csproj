@@ -9,10 +9,6 @@
     <RootNamespace>SDK</RootNamespace>
     <AssemblyName>SDK</AssemblyName>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-    <PackageId>Matchmore.SDK</PackageId>
-    <PackageVersion>1.0.1</PackageVersion>
-    <Authors>lmlynik</Authors>
-    <Description>SDK</Description>
     <PackOnBuild>true</PackOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -32,21 +28,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Client.cs" />
-    <Compile Include="LocationProviders.cs" />
-    <Compile Include="MatchMonitors.cs" />
-    <Compile Include="Matchmore.Config.cs" />
-    <Compile Include="Matchmore.cs" />
-    <Compile Include="BaseClient.cs" />
-    <Compile Include="Events\MatchReceivedEventArgs.cs" />
-    <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="Persistence\SimpleJsonStateManager.cs" />
-    <Compile Include="MatchChannel.cs" />
-    <Compile Include="Persistence\IStateManager.cs" />
-    <Compile Include="Persistence\State.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="project.json" />
-  </ItemGroup>
+  <Import Project="..\SDK.Shared\SDK.Shared.projitems" Label="Shared" Condition="Exists('..\SDK.Shared\SDK.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="..\packages\NuGet.Build.Packaging.0.2.0\build\NuGet.Build.Packaging.targets" Condition="Exists('..\packages\NuGet.Build.Packaging.0.2.0\build\NuGet.Build.Packaging.targets')" />
 </Project>
