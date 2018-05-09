@@ -1,7 +1,7 @@
 ﻿using System;
 using Android.Views;
 
-namespace App.Droid
+namespace TestApp.Droid
 {
     public class RecyclerClickEventArgs : EventArgs
     {

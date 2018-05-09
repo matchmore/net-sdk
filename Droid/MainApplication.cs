@@ -6,7 +6,7 @@ using Android.Runtime;
 
 using Plugin.CurrentActivity;
 
-namespace App.Droid
+namespace TestApp.Droid
 {
     //You can specify additional application information in this attribute
     [Application]
@@ -14,7 +14,8 @@ namespace App.Droid
     {
         public MainApplication(IntPtr handle, JniHandleOwnership transer)
         : base(handle, transer)
-        {
+		{
+			
         }
 
         public override void OnCreate()

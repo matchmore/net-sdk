@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>App</string>
+	<string>TestApp</string>
 	<key>CFBundleName</key>
-	<string>App</string>
+	<string>TestApp</string>
 	<key>CFBundleIdentifier</key>
-	<string>io.matchmore.App</string>
+	<string>io.matchmore.TestApp</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>

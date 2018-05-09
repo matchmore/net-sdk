@@ -2,7 +2,7 @@
 
 using UIKit;
 
-namespace App.iOS
+namespace TestApp.iOS
 {
     public partial class ItemNewViewController : UIViewController
     {

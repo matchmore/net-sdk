@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 
 namespace Matchmore.SDK.Persistence
 {
-    [DataContract]
     public class State
     {
         private bool _isDirty;
@@ -14,7 +13,6 @@ namespace Matchmore.SDK.Persistence
         private List<Publication> publications;
         private List<PinDevice> pins;
 
-        [DataMember(Name = "env", EmitDefaultValue = true)]
         [JsonProperty(PropertyName = "env")]
         public string Environment
         {
@@ -30,7 +28,6 @@ namespace Matchmore.SDK.Persistence
             }
         }
 
-        [DataMember(Name = "device", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "device")]
         public Device Device
         {
@@ -46,7 +43,6 @@ namespace Matchmore.SDK.Persistence
             }
         }
 
-        [DataMember(Name = "subscriptions", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "subscriptions")]
         public List<Subscription> Subscriptions
         {
@@ -62,7 +58,6 @@ namespace Matchmore.SDK.Persistence
             }
         }
 
-        [DataMember(Name = "publications", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "publications")]
         public List<Publication> Publications
         {
@@ -78,7 +73,6 @@ namespace Matchmore.SDK.Persistence
             }
         }
 
-        [DataMember(Name = "pins", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "pins")]
         public List<PinDevice> Pins
         {

@@ -3,7 +3,7 @@ using Android.Content;
 using Android.OS;
 using Android.Support.V7.App;
 
-namespace App.Droid
+namespace TestApp.Droid
 {
     [Activity(Label = "@string/app_name", Theme = "@style/SplashTheme", MainLauncher = true)]
     public class SplashActivity : AppCompatActivity
@@ -11,6 +11,9 @@ namespace App.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+
+			Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             var newIntent = new Intent(this, typeof(MainActivity));
             newIntent.AddFlags(ActivityFlags.ClearTop);

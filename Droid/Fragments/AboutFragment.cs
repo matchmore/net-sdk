@@ -3,7 +3,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 
-namespace App.Droid
+namespace TestApp.Droid
 {
     public class AboutFragment : Android.Support.V4.App.Fragment, IFragmentVisible
     {

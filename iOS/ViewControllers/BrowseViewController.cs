@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using Foundation;
 using UIKit;
 
-namespace App.iOS
+namespace TestApp.iOS
 {
     public partial class BrowseViewController : UITableViewController
     {

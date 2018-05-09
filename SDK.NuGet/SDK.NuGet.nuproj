@@ -28,10 +28,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SDK\SDK.csproj">
-      <Project>{B6A265B6-28A4-4218-9463-BC7C58940C20}</Project>
-      <Name>SDK</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SDK.Android\SDK.Android.csproj">
       <Project>{7B437765-F453-4382-9124-BD820D38B2E1}</Project>
       <Name>SDK.Android</Name>

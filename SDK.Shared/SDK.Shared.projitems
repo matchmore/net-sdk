@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MatchChannel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Persistence\IStateManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Persistence\State.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IDeviceInfoProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)project.json" />

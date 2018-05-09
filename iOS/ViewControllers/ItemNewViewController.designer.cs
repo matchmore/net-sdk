@@ -9,7 +9,7 @@ using System;
 using System.CodeDom.Compiler;
 using UIKit;
 
-namespace App.iOS
+namespace TestApp.iOS
 {
     [Register("ItemNewViewController")]
     partial class ItemNewViewController

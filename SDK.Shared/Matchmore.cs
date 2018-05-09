@@ -13,8 +13,9 @@ namespace Matchmore.SDK
         public static readonly string API_VERSION = "v5";
         public static readonly string PRODUCTION = "api.matchmore.io";
         private ApiClient _client;
-        private IStateManager _state;
-        private string _environment;
+        private readonly IStateManager _state;
+		private readonly IDeviceInfoProvider _deviceInfoProvider;
+		private string _environment;
         private string _apiKey;
         private bool _secured;
         private int? _servicePort;
@@ -128,8 +129,10 @@ namespace Matchmore.SDK
             }
         }
 
-        public Matchmore(Config config, HttpClient httpClient)
+		public Matchmore(Config config, HttpClient httpClient)
         {
+			_state = config.StateManager;
+			_deviceInfoProvider = config.DeviceInfoProvider;
             _config = config;
 
             //MatchmoreLogger.Enabled = config.LoggingEnabled;

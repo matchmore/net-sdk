@@ -2,7 +2,7 @@
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 
-namespace App.Droid
+namespace TestApp.Droid
 {
     public class BaseActivity : AppCompatActivity
     {

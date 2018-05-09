@@ -1,4 +1,4 @@
-﻿namespace App.Droid
+﻿namespace TestApp.Droid
 {
     interface IFragmentVisible
     {

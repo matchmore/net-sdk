@@ -7,7 +7,7 @@ using Android.Support.V4.Widget;
 using Android.App;
 using Android.Content;
 
-namespace App.Droid
+namespace TestApp.Droid
 {
     public class BrowseFragment : Android.Support.V4.App.Fragment, IFragmentVisible
     {

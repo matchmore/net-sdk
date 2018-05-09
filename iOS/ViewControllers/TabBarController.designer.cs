@@ -9,7 +9,7 @@ using System;
 using System.CodeDom.Compiler;
 using UIKit;
 
-namespace App.iOS
+namespace TestApp.iOS
 {
     [Register("TabBarController")]
     partial class TabBarController
