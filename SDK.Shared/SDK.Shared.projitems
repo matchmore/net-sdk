@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Persistence\State.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IDeviceInfoProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RecurrentCancellableTask.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchmoreException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)project.json" />

@@ -12,8 +12,7 @@ namespace TestApp.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
-
+   
 			Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
 			var r = Matchmore.SDK.Matchmore.ConfigureAsync(new Matchmore.SDK.Config
@@ -24,7 +23,6 @@ namespace TestApp.Droid
 			Task.WaitAll(r);
 
 			Matchmore.SDK.Matchmore.Instance.StartLocationService();
-          
 
             var newIntent = new Intent(this, typeof(MainActivity));
             newIntent.AddFlags(ActivityFlags.ClearTop);
