@@ -1,5 +1,3 @@
-using System.Collections;
-
 using System;
 
 using System.Threading;
@@ -11,15 +9,12 @@ namespace Matchmore.SDK
 {
 	public interface ILocationService
 	{
-		Location MockLocation { get; set; }
-
 		void Start();
 		void Stop();
 	}
 
 	public class SimpleLocationService : ILocationService
 	{
-		public Location MockLocation { get; set; }
 		private IGeolocator _locator;
 		private ApiClient _client;
 		private Device _mainDevice { get; }
@@ -38,7 +33,7 @@ namespace Matchmore.SDK
 			_cancelationTokenSource = new CancellationTokenSource();
 			RecurrentCancellableTask.StartNew(async () =>
 			{
-				var location = await _locator.GetPositionAsync(TimeSpan.FromSeconds(10), _cancelationTokenSource.Token);
+				var location = await _locator.GetPositionAsync(TimeSpan.FromSeconds(10), _cancelationTokenSource.Token).ConfigureAwait(false);
 				try
 				{
 					await _client.CreateLocationAsync(_mainDevice.Id, new Location
@@ -50,7 +45,7 @@ namespace Matchmore.SDK
 				}
 				catch (SwaggerException e) when (e.StatusCode == 201)
 				{
-
+                    //ignore if you get swagger exception with 201, means it was created
 				}
 
 			}, TimeSpan.FromSeconds(10), _cancelationTokenSource.Token, TaskCreationOptions.LongRunning);

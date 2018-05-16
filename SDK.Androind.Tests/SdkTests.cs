@@ -32,7 +32,7 @@ namespace SDK.Androind.Tests
 			Match match = null;
 			do
 			{
-				var matches = RunSync(() => _instance.GetMatches());
+				var matches = RunSync(() => _instance.GetMatchesAsync());
 				match = matches.Find(m => m.Publication.Id == testMatch.Publication.Id && m.Subscription.Id == testMatch.Subscription.Id);
 			} while (match == null);
 
@@ -111,7 +111,7 @@ namespace SDK.Androind.Tests
 
 		private async Task<TestMatchSetup> SetupMatchAsync()
 		{
-			var pubDevice = await _instance.CreateDevice(new MobileDevice
+			var pubDevice = await _instance.CreateDeviceAsync(new MobileDevice
 			{
 				Name = "Publisher"
 			});
@@ -120,7 +120,7 @@ namespace SDK.Androind.Tests
 			Assert.NotNull(pubDevice);
 			Assert.NotNull(pubDevice.Id);
 
-			var sub = await _instance.CreateSubscription(new Subscription
+			var sub = await _instance.CreateSubscriptionAsync(new Subscription
 			{
 				Topic = "Unity",
 				Duration = 30,
@@ -131,7 +131,7 @@ namespace SDK.Androind.Tests
 			Assert.NotNull(sub);
 			Assert.NotNull(sub.Id);
 
-			var pub = await _instance.CreatePublication(new Publication
+			var pub = await _instance.CreatePublicationAsync(new Publication
 			{
 				Topic = "Unity",
 				Duration = 30,
@@ -145,13 +145,13 @@ namespace SDK.Androind.Tests
 			Assert.NotNull(pub);
 			Assert.NotNull(pub.Id);
 
-			await _instance.UpdateLocation(new Location
+			await _instance.UpdateLocationAsync(new Location
 			{
 				Latitude = 54.414662,
 				Longitude = 18.625498
 			});
 
-			await _instance.UpdateLocation(new Location
+			await _instance.UpdateLocationAsync(new Location
 			{
 				Latitude = 54.414662,
 				Longitude = 18.625498
