@@ -2,5 +2,6 @@
 {
     public enum MatchChannel
     {
+		polling, websocket
     }
 }

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Matchmore.SDK.Persistence;
 using System.Threading.Tasks;
 using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Matchmore.SDK
 {
@@ -22,7 +24,10 @@ namespace Matchmore.SDK
         private Dictionary<string, IMatchMonitor> _monitors = new Dictionary<string, IMatchMonitor>();
         private List<EventHandler<MatchReceivedEventArgs>> _eventHandlers = new List<EventHandler<MatchReceivedEventArgs>>();
         private readonly Config _config;
-        private ILocationService _locationService;
+
+		public string _worldId { get; }
+
+		private ILocationService _locationService;
 
         public event EventHandler<MatchReceivedEventArgs> MatchReceived
         {
@@ -56,11 +61,11 @@ namespace Matchmore.SDK
         {
             get
             {
-                return _state.Device;
+                return _state.MainDevice;
             }
             private set
             {
-                _state.Device = value;
+				_state.SetMainDevice(value);
                 _state.Save();
             }
         }
@@ -93,18 +98,22 @@ namespace Matchmore.SDK
             }
         }
 
-        public static void Configure(string apiKey)
+        public async static Task Configure(string apiKey)
         {
-            Configure(Config.WithApiKey(apiKey));
+            await Configure(Config.WithApiKey(apiKey));
         }
 
-        public static void Configure(Config config)
+		public static async Task Configure(Config config)
         {
             if (_instance != null)
             {
                 throw new InvalidOperationException("Matchmore static instance already configured");
             }
+
+			config.Defaults();
+
             _instance = new Matchmore(config, new HttpClient());
+			await _instance.SetupMainDevice();
         }
 
         public static void Reset()
@@ -134,8 +143,7 @@ namespace Matchmore.SDK
 			_state = config.StateManager;
 			_deviceInfoProvider = config.DeviceInfoProvider;
             _config = config;
-
-            //MatchmoreLogger.Enabled = config.LoggingEnabled;
+			_worldId = ExtractWorldId(config.ApiKey);
 
             if (string.IsNullOrEmpty(config.ApiKey))
             {
@@ -150,8 +158,6 @@ namespace Matchmore.SDK
             {
                 BaseUrl = ApiUrl
             };
-
-            //_state = new StateManager(_environment, config.PersistenceFile);
         }
 
         public async Task<Device> SetupMainDevice()
@@ -168,15 +174,18 @@ namespace Matchmore.SDK
         /// Threaded, creates an ongoing thread which polls the Unity location service and reports it to matchmore
         /// </summary>
         /// <param name="type">Type,</param>
-        public void StartLocationService(LocationServiceType type)
+        public void StartLocationService()
         {
             if (_locationService != null)
             {
                 _locationService.Stop();
             }
+			_locationService = new SimpleLocationService(_client, MainDevice)
+			{
+				MockLocation = MockLocation
+			};
 
-            _locationService.MockLocation = MockLocation;
-            _locationService.Start();
+			_locationService.Start();
         }
 
         public void WipeData()
@@ -200,11 +209,6 @@ namespace Matchmore.SDK
 
             Device createdDevice = null;
 
-            if (!string.IsNullOrEmpty(device.Id))
-            {
-                //UnityEngine.MonoBehaviour.print("Device ID will be ignored!!!");
-            }
-
             if (device is PinDevice)
             {
                 var pinDevice = device as PinDevice;
@@ -220,8 +224,8 @@ namespace Matchmore.SDK
             {
                 var mobileDevice = device as MobileDevice;
 
-                mobileDevice.Name = string.IsNullOrEmpty(mobileDevice.Name) ? "Main" : mobileDevice.Name;
-                mobileDevice.Platform = string.IsNullOrEmpty(mobileDevice.Platform) ? "main" : mobileDevice.Platform;
+				mobileDevice.Name = string.IsNullOrEmpty(mobileDevice.Name) ? _deviceInfoProvider.DeviceName : mobileDevice.Name;
+				mobileDevice.Platform = string.IsNullOrEmpty(mobileDevice.Platform) ? _deviceInfoProvider.Platform : mobileDevice.Platform;
                 mobileDevice.DeviceToken = string.IsNullOrEmpty(mobileDevice.DeviceToken) ? "" : mobileDevice.DeviceToken;
 
                 createdDevice = mobileDevice;
@@ -238,6 +242,7 @@ namespace Matchmore.SDK
 
                 createdDevice = ibeaconDevice;
             }
+           
             var deviceInBackend = await _client.CreateDeviceAsync(createdDevice);
             //only mobile can be considered as a main device
             if (makeMain && createdDevice is MobileDevice)
@@ -300,7 +305,7 @@ namespace Matchmore.SDK
         /// <param name="device">Device, if null will default to main device</param>
         public async Task<Subscription> CreateSubscription(Subscription sub, Device device = null)
         {
-            var usedDevice = device != null ? device : _state.Device;
+            var usedDevice = device != null ? device : _state.MainDevice;
             return await CreateSubscription(sub, usedDevice.Id);
         }
 
@@ -318,6 +323,9 @@ namespace Matchmore.SDK
                 throw new ArgumentException("Device Id null or empty");
             }
 
+			sub.WorldId = sub.WorldId ?? _worldId;
+			sub.DeviceId = sub.DeviceId ?? deviceId;
+
             var _sub = await _client.CreateSubscriptionAsync(deviceId, sub);
             if (!ignorePersistence)
                 _state.AddSubscription(_sub);
@@ -332,7 +340,7 @@ namespace Matchmore.SDK
         /// <param name="device">Device, if null will default to main device</param>
         public async Task<Publication> CreatePublication(Publication pub, Device device = null)
         {
-            var usedDevice = device != null ? device : _state.Device;
+            var usedDevice = device != null ? device : _state.MainDevice;
             return await CreatePublication(pub, usedDevice.Id);
         }
 
@@ -350,6 +358,9 @@ namespace Matchmore.SDK
                 throw new ArgumentException("Device Id null or empty");
             }
 
+			pub.WorldId = pub.WorldId ?? _worldId;
+			pub.DeviceId = pub.DeviceId ?? deviceId;
+
             var _pub = await _client.CreatePublicationAsync(deviceId, pub);
             if (!ignorePersistence)
                 _state.AddPublication(_pub);
@@ -364,7 +375,7 @@ namespace Matchmore.SDK
         /// <param name="device">Device, if null will default to main device</param>
         public async Task UpdateLocation(Location location, Device device = null)
         {
-            var usedDevice = device != null ? device : _state.Device;
+            var usedDevice = device != null ? device : _state.MainDevice;
             await UpdateLocation(location, usedDevice.Id);
         }
 
@@ -392,7 +403,7 @@ namespace Matchmore.SDK
         /// <param name="device">Device, if null will default to main device</param>
         public async Task<List<Match>> GetMatches(Device device = null)
         {
-            var usedDevice = device != null ? device : _state.Device;
+            var usedDevice = device != null ? device : _state.MainDevice;
             return await GetMatches(usedDevice.Id);
         }
 
@@ -435,22 +446,22 @@ namespace Matchmore.SDK
         /// <param name="device">Device, if null will default to main device</param>
         public IMatchMonitor SubscribeMatches(MatchChannel channel, Device device = null)
         {
-            var deviceToSubscribe = device == null ? _state.Device : device;
+            var deviceToSubscribe = device == null ? _state.MainDevice : device;
             IMatchMonitor monitor = null;
-            //switch (channel)
-            //{
-            //    case MatchChannel.polling:
-            //        monitor = CreatePollingMonitor(deviceToSubscribe);
-            //        break;
-            //    case MatchChannel.websocket:
-            //        monitor = CreateWebsocketMonitor(deviceToSubscribe);
-            //        break;
+            switch (channel)
+            {
+                case MatchChannel.polling:
+					monitor = new PollingMatchMonitor(_client, deviceToSubscribe);
+                    break;
+                case MatchChannel.websocket:
+					monitor = new WebsocketMatchMonitor(_client, deviceToSubscribe, _worldId);
+                    break;
             //    case MatchChannel.threadedPolling:
             //        monitor = CreateThreadedPollingMonitor(deviceToSubscribe);
             //        break;
-            //    default:
-            //        break;
-            //}
+                default:
+                    break;
+            }
 
             if (monitor == null)
             {
@@ -472,11 +483,12 @@ namespace Matchmore.SDK
 
             return monitor;
         }
+       
 
-        private Device FindDevice(string deviceId)
+		private Device FindDevice(string deviceId)
         {
-            if (_state.Device.Id == deviceId)
-                return _state.Device;
+            if (_state.MainDevice.Id == deviceId)
+                return _state.MainDevice;
             else
                 return _state.Pins.Find(pin => pin.Id == deviceId);
         }
@@ -527,6 +539,27 @@ namespace Matchmore.SDK
             if (_locationService != null)
                 _locationService.Stop();
 
+        }
+
+		private class ApiKeyObject
+        {
+            public string Sub { get; set; }
+        }
+
+		public static string ExtractWorldId(string apiKey)
+        {
+            try
+            {
+                var subjectData = Convert.FromBase64String(apiKey.Split('.')[1]);
+                var subject = Encoding.UTF8.GetString(subjectData);
+                var deserializedApiKey = JsonConvert.DeserializeObject<ApiKeyObject>(subject);
+
+                return deserializedApiKey.Sub;
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException("Api key was invalid", e);
+            }
         }
     }
 

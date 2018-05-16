@@ -10,17 +10,15 @@ namespace Matchmore.SDK.Persistence
     {
         private State _state;
         private string _env;
-        string _persistenceFile;
+        private string _persistenceFile;
 
-        public string PersistenceFile
-        {
-            get
-            {
-                return _persistenceFile;
-            }
-        }
+		public virtual string PersistenceDirectory => "";
 
-        public Device Device
+		public string PersistenceFileName => _persistenceFile;
+
+		public string PersistencePath => Path.Combine(PersistenceDirectory, PersistenceFileName);
+
+        public Device MainDevice
         {
             get
             {
@@ -33,24 +31,17 @@ namespace Matchmore.SDK.Persistence
                     return _state.Device;
                 }
             }
-            set
-            {
-                if (_state == null)
-                {
-                    _state = new State();
-                }
-
-                _state.Device = value;
-            }
         }
 
-        public string PersistencePath
-        {
-            get
+		public void SetMainDevice(Device device){
+			if (_state == null)
             {
-                return PersistenceFile;
+                _state = new State();
             }
-        }
+
+            _state.Device = device;
+		}
+       
 
         public List<Subscription> ActiveSubscriptions
         {

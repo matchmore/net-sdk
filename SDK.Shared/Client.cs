@@ -1466,7 +1466,7 @@ namespace Matchmore.SDK
         /// <param name="location">Location to create for a device.</param>
         /// <returns>Expected response to a valid request.</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<Location> CreateLocationAsync(string deviceId, Location location)
+        public System.Threading.Tasks.Task CreateLocationAsync(string deviceId, Location location)
         {
             return CreateLocationAsync(deviceId, location, System.Threading.CancellationToken.None);
         }
@@ -1477,7 +1477,7 @@ namespace Matchmore.SDK
         /// <returns>Expected response to a valid request.</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task<Location> CreateLocationAsync(string deviceId, Location location, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task CreateLocationAsync(string deviceId, Location location, System.Threading.CancellationToken cancellationToken)
         {
             if (deviceId == null)
                 throw new System.ArgumentNullException("deviceId");
@@ -1518,16 +1518,7 @@ namespace Matchmore.SDK
                         if (status_ == "201") 
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(Location); 
-                            try
-                            {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<Location>(responseData_, _settings.Value);
-                                return result_; 
-                            } 
-                            catch (System.Exception exception_) 
-                            {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
-                            }
+							return;
                         }
                         else
                         {
@@ -1544,7 +1535,7 @@ namespace Matchmore.SDK
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
             
-                        return default(Location);
+                        return;
                     }
                     finally
                     {
@@ -1810,7 +1801,7 @@ namespace Matchmore.SDK
         /// <summary>The altitude of the device in meters, for instance '495.0' (Lausanne,
         /// Switzerland).
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("altitude", Required = Newtonsoft.Json.Required.Always)]
+		[Newtonsoft.Json.JsonProperty("altitude", Required = Newtonsoft.Json.Required.Default)]
         public double Altitude { get; set; }
     
         /// <summary>The horizontal accuracy of the location, measured on a
@@ -1849,11 +1840,11 @@ namespace Matchmore.SDK
         public long? CreatedAt { get; set; }
     
         /// <summary>The id (UUID) of the world that contains device to attach a publication to.</summary>
-        [Newtonsoft.Json.JsonProperty("worldId", Required = Newtonsoft.Json.Required.Always)]
+		[Newtonsoft.Json.JsonProperty("worldId", Required = Newtonsoft.Json.Required.Default)]
         public string WorldId { get; set; }
     
         /// <summary>The id (UUID) of the device to attach a publication to.</summary>
-        [Newtonsoft.Json.JsonProperty("deviceId", Required = Newtonsoft.Json.Required.Always)]
+		[Newtonsoft.Json.JsonProperty("deviceId", Required = Newtonsoft.Json.Required.Default)]
         public string DeviceId { get; set; }
     
         /// <summary>The topic of the publication. This will act as a first match filter.
@@ -1883,7 +1874,7 @@ namespace Matchmore.SDK
     
         /// <summary>The dictionary of key, value pairs. Allowed values are number, boolean, string and array of afformentioned types</summary>
         [Newtonsoft.Json.JsonProperty("properties", Required = Newtonsoft.Json.Required.Always)]
-        public System.Collections.Generic.Dictionary<string, Anonymous> Properties { get; set; } = new System.Collections.Generic.Dictionary<string, Anonymous>();
+        public System.Collections.Generic.Dictionary<string, object> Properties { get; set; } = new System.Collections.Generic.Dictionary<string, object>();
     
     
     }
@@ -1906,11 +1897,11 @@ namespace Matchmore.SDK
         public long? CreatedAt { get; set; }
     
         /// <summary>The id (UUID) of the world that contains device to attach a subscription to.</summary>
-        [Newtonsoft.Json.JsonProperty("worldId", Required = Newtonsoft.Json.Required.Always)]
+		[Newtonsoft.Json.JsonProperty("worldId", Required = Newtonsoft.Json.Required.Default)]
         public string WorldId { get; set; }
     
         /// <summary>The id (UUID) of the device to attach a subscription to.</summary>
-        [Newtonsoft.Json.JsonProperty("deviceId", Required = Newtonsoft.Json.Required.Always)]
+		[Newtonsoft.Json.JsonProperty("deviceId", Required = Newtonsoft.Json.Required.Default)]
         public string DeviceId { get; set; }
     
         /// <summary>The topic of the subscription. This will act as a first match filter.
@@ -2086,12 +2077,6 @@ namespace Matchmore.SDK
         [Newtonsoft.Json.JsonProperty("distance", Required = Newtonsoft.Json.Required.Always)]
         public double Distance { get; set; }
     
-    
-    }
-    
-    //[System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.46.0 (Newtonsoft.Json v9.0.0.0)")]
-    public partial class Anonymous 
-    {
     
     }
     

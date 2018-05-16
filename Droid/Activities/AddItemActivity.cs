@@ -34,23 +34,6 @@ namespace TestApp.Droid
 
         void SaveButton_Click(object sender, EventArgs e)
         {
-            Matchmore.SDK.Matchmore.Configure(new Matchmore.SDK.Config
-            {
-                ApiKey = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJhbHBzIiwic3ViIjoiZDFhMDhkMjUtOGNjNi00ZjhhLWFlZjAtYjNiNjc5MDE2MjFmIiwiYXVkIjpbIlB1YmxpYyJdLCJuYmYiOjE1MjU3MDI3ODksImlhdCI6MTUyNTcwMjc4OSwianRpIjoiMSJ9.ht7KJrXGXkh8xqC9cFYAJV7NS0kSti3YidUB2nTyeHm7REsIhNKlwuDyfxSkeQZE6o0OHWegn7hZcHoAvW5QOw",
-                Environment = "130.211.39.172"
-            });
-
-			var r = Task.Run(async () =>
-			{
-				return await Matchmore.SDK.Matchmore.Instance.SetupMainDevice();
-			});
-
-            
-
-			Task.WaitAll(r);
-
-			var d= r.Result;
-
             var item = new Item
             {
                 Text = title.Text,
