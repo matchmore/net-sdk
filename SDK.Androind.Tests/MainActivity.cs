@@ -16,7 +16,7 @@ namespace SDK.Androind.Tests
             AddTest(Assembly.GetExecutingAssembly());
 
 			Xamarin.Forms.Forms.Init(this, bundle);
-
+           
 			var r = Task.Run(async () =>
 			{
 				var stateManager = new AndroidStateManager("test", "test_state.data");
