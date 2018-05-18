@@ -1,7 +1,13 @@
-﻿namespace Matchmore.SDK
+﻿using System;
+
+namespace Matchmore.SDK
 {
+	[Flags]
     public enum MatchChannel
     {
-		polling, websocket
+		Polling = 1, 
+		Websocket = 2,
+        APNS = 4,
+        FCM = 8
     }
 }

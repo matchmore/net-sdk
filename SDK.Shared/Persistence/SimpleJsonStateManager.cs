@@ -41,33 +41,15 @@ namespace Matchmore.SDK.Persistence
 
             _state.Device = device;
 		}
-       
 
-        public List<Subscription> ActiveSubscriptions
-        {
-            get
-            {
-                return _state.Subscriptions;
-            }
-        }
 
-        public List<Publication> ActivePublications
-        {
-            get
-            {
-                return _state.Publications;
-            }
-        }
+		public List<Subscription> ActiveSubscriptions => _state.Subscriptions;
 
-        public List<PinDevice> Pins
-        {
-            get
-            {
-                return _state.Pins;
-            }
-        }
+		public List<Publication> ActivePublications => _state.Publications;
 
-        public SimpleJsonStateManager(string env, string persistenceFile = null)
+		public List<PinDevice> Pins => _state.Pins;
+
+		public SimpleJsonStateManager(string env, string persistenceFile = null)
         {
             _env = env;
             _persistenceFile = string.IsNullOrEmpty(persistenceFile) ? "state.data" : persistenceFile;
@@ -114,12 +96,9 @@ namespace Matchmore.SDK.Persistence
             }
         }
 
-        private bool IsCorrectEnv(State state)
-        {
-            return state.Environment == _env;
-        }
+		private bool IsCorrectEnv(State state) => state.Environment == _env;
 
-        public void Save()
+		public void Save()
         {
             if (_state.IsDirty())
             {

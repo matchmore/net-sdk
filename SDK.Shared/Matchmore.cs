@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using System.Linq;
 
 namespace Matchmore.SDK
 {
@@ -23,7 +24,7 @@ namespace Matchmore.SDK
 		private int? _servicePort;
 		private Dictionary<string, IMatchMonitor> _monitors = new Dictionary<string, IMatchMonitor>();
 		private List<EventHandler<MatchReceivedEventArgs>> _eventHandlers = new List<EventHandler<MatchReceivedEventArgs>>();
-		private readonly Config _config;
+		private readonly IConfig _config;
 
 		public string _worldId { get; }
 
@@ -88,17 +89,17 @@ namespace Matchmore.SDK
 
 		public async static Task ConfigureAsync(string apiKey)
 		{
-			await ConfigureAsync(Config.WithApiKey(apiKey)).ConfigureAwait(false);
+			await ConfigureAsync(ConfigBuilder.WithApiKey(apiKey)).ConfigureAwait(false);
 		}
 
-		public static async Task ConfigureAsync(Config config)
+		public static async Task ConfigureAsync(IConfig config)
 		{
 			if (_instance != null)
 			{
 				throw new InvalidOperationException("Matchmore static instance already configured");
 			}
 
-			config.Defaults();
+			config.SetupDefaults();
 
 			_instance = new Matchmore(config);
 			await _instance.SetupMainDeviceAsync().ConfigureAwait(false);
@@ -126,7 +127,7 @@ namespace Matchmore.SDK
 			}
 		}
 
-		public Matchmore(Config config)
+		public Matchmore(IConfig config)
 		{
 			_state = config.StateManager;
 			_deviceInfoProvider = config.DeviceInfoProvider;
@@ -429,26 +430,32 @@ namespace Matchmore.SDK
 		public IMatchMonitor SubscribeMatches(MatchChannel channel, Device device = null)
 		{
 			var deviceToSubscribe = device == null ? _state.MainDevice : device;
-			IMatchMonitor monitor = null;
-			switch (channel)
-			{
-				case MatchChannel.polling:
-					monitor = new PollingMatchMonitor(_client, deviceToSubscribe);
-					break;
-				case MatchChannel.websocket:
-					monitor = new WebsocketMatchMonitor(_client, deviceToSubscribe, _worldId);
-					break;
-				//    case MatchChannel.threadedPolling:
-				//        monitor = CreateThreadedPollingMonitor(deviceToSubscribe);
-				//        break;
-				default:
-					break;
+
+			var monitors = new List<IMatchMonitor>();
+
+			if (channel.HasFlag(MatchChannel.Polling))
+				monitors.Add(new PollingMatchMonitor(_client, deviceToSubscribe));
+
+			if (channel.HasFlag(MatchChannel.Websocket))
+				monitors.Add(new WebsocketMatchMonitor(_client, deviceToSubscribe, _worldId));
+
+			if (channel.HasFlag(MatchChannel.APNS)){
+				//todo
 			}
 
-			if (monitor == null)
-			{
-				throw new ArgumentException(String.Format("{0} is an unrecognized channel", channel));
-			}
+			if (channel.HasFlag(MatchChannel.FCM))
+            {
+                //todo
+            }
+            
+			if (!monitors.Any())
+				throw new MatchmoreException("Invalid match monitors");
+
+			IMatchMonitor monitor = null;
+			if (monitors.Count == 1)
+				monitor = monitors.Single();
+
+			monitor = new MultiChannelMatchMonitor(monitors.ToArray());
 
 			if (_monitors.ContainsKey(deviceToSubscribe.Id))
 			{
@@ -471,8 +478,8 @@ namespace Matchmore.SDK
 		{
 			if (_state.MainDevice.Id == deviceId)
 				return _state.MainDevice;
-			else
-				return _state.Pins.Find(pin => pin.Id == deviceId);
+			
+			return _state.Pins.Find(pin => pin.Id == deviceId);
 		}
 
 		/// <summary>

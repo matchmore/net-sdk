@@ -48,6 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="iOSDeviceInfo.cs" />
     <Compile Include="iOSStateManager.cs" />
+    <Compile Include="iOSConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

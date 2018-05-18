@@ -18,6 +18,65 @@ namespace Matchmore.SDK
 		Task Stop();
 	}
 
+	public class MultiChannelMatchMonitor : IMatchMonitor
+	{
+		private readonly IMatchMonitor[] _matchMonitors;
+		private readonly List<EventHandler<MatchReceivedEventArgs>> _eventHandlers = new List<EventHandler<MatchReceivedEventArgs>>();
+
+		public MultiChannelMatchMonitor(params IMatchMonitor[] matchMonitors)
+		{
+			this._matchMonitors = matchMonitors;
+		}
+
+		public event EventHandler<MatchReceivedEventArgs> MatchReceived
+		{
+			add
+			{
+
+				if (_matchMonitors == null)
+					return;
+				foreach (var monitor in _matchMonitors)
+				{
+					_eventHandlers.Add(value);
+					monitor.MatchReceived += value;
+				}
+			}
+			remove
+			{
+
+				if (_matchMonitors == null)
+					return;
+				foreach (var monitor in _matchMonitors)
+				{
+					_eventHandlers.Remove(value);
+					monitor.MatchReceived -= value;
+				}
+			}
+		}
+
+		public async Task Start()
+		{
+			if (_matchMonitors == null)
+				return;
+			foreach (var monitor in _matchMonitors)
+			{
+				await monitor.Start();
+			}
+
+			return;
+		}
+
+		public async Task Stop()
+		{
+			if (_matchMonitors == null)
+				return;
+			foreach (var monitor in _matchMonitors)
+			{
+				await monitor.Stop();
+			}
+		}
+	}
+
 	public class PollingMatchMonitor : IMatchMonitor
 	{
 		private ApiClient _client;
@@ -37,7 +96,7 @@ namespace Matchmore.SDK
 			RecurrentCancellableTask.StartNew(async () =>
 		{
 			var matches = await _client.GetMatchesAsync(_deviceToSubscribe.Id, _cancelationTokenSource.Token);
-			MatchReceived?.Invoke(this, new MatchReceivedEventArgs(_deviceToSubscribe, MatchChannel.polling, matches));
+			MatchReceived?.Invoke(this, new MatchReceivedEventArgs(_deviceToSubscribe, MatchChannel.Polling, matches));
 
 		}, TimeSpan.FromSeconds(10), _cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
 			return Task.FromResult<object>(null);
@@ -106,7 +165,7 @@ namespace Matchmore.SDK
 				try
 				{
 					var match = await _client.GetMatchAsync(_deviceToSubscribe.Id, matchId).ConfigureAwait(false);
-					MatchReceived?.Invoke(this, new MatchReceivedEventArgs(_deviceToSubscribe, MatchChannel.websocket, new List<Match> { match }));
+					MatchReceived?.Invoke(this, new MatchReceivedEventArgs(_deviceToSubscribe, MatchChannel.Websocket, new List<Match> { match }));
 				}
 				catch (Exception e)
 				{

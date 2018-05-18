@@ -12,7 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LocationProviders.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchMonitors.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Matchmore.Config.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GenericConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Matchmore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BaseClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\MatchReceivedEventArgs.cs" />
@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IDeviceInfoProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RecurrentCancellableTask.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchmoreException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)project.json" />
