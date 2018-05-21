@@ -11,6 +11,7 @@ namespace Matchmore.SDK.Persistence
         private State _state;
         private string _env;
         private string _persistenceFile;
+		private bool _isLoaded;
 
 		public virtual string PersistenceDirectory => "";
 
@@ -49,11 +50,12 @@ namespace Matchmore.SDK.Persistence
 
 		public List<PinDevice> Pins => _state.Pins;
 
+		public bool IsLoaded => _isLoaded;
+
 		public SimpleJsonStateManager(string env, string persistenceFile = null)
         {
             _env = env;
             _persistenceFile = string.IsNullOrEmpty(persistenceFile) ? "state.data" : persistenceFile;
-            Load();
         }
 
         public void WipeData()
@@ -88,6 +90,7 @@ namespace Matchmore.SDK.Persistence
                 if (IsCorrectEnv(state))
                 {
                     _state = state;
+					_isLoaded = true;
                 }
                 else
                 {

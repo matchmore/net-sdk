@@ -56,6 +56,8 @@ namespace Matchmore.SDK
 		{
 			get
 			{
+				if (!_state.IsLoaded)
+					_state.Load();
 				return _state.MainDevice;
 			}
 			private set
@@ -102,7 +104,6 @@ namespace Matchmore.SDK
 			config.SetupDefaults();
 
 			_instance = new Matchmore(config);
-			await _instance.SetupMainDeviceAsync().ConfigureAwait(false);
 		}
 
 		public static void Reset()
@@ -162,12 +163,28 @@ namespace Matchmore.SDK
 		/// </summary>
 		public void StartLocationService()
 		{
+			EventHandler<Events.LocationUpdatedEventArgs> onLocationUpdated = async (object sender, Events.LocationUpdatedEventArgs e) =>
+            {
+                var location = e.Location;
+                await _client.CreateLocationAsync(MainDevice.Id, new Location
+                {
+                    Longitude = location.Longitude,
+                    Altitude = location.Altitude,
+                    Latitude = location.Latitude
+                });
+            };
+
 			if (_locationService != null)
 			{
+				_locationService.LocationUpdated -= onLocationUpdated;
 				_locationService.Stop();
 			}
-			_locationService = new SimpleLocationService(_client, MainDevice);
 
+			_locationService = _config.LocationService;
+
+
+
+			_locationService.LocationUpdated += onLocationUpdated;
 			_locationService.Start();
 		}
 
@@ -175,8 +192,7 @@ namespace Matchmore.SDK
 		{
 			_state.WipeData();
 		}
-
-
+        
 		/// <summary>
 		/// Creates the device.
 		/// </summary>
@@ -454,8 +470,8 @@ namespace Matchmore.SDK
 			IMatchMonitor monitor = null;
 			if (monitors.Count == 1)
 				monitor = monitors.Single();
-
-			monitor = new MultiChannelMatchMonitor(monitors.ToArray());
+			else
+                monitor = new MultiChannelMatchMonitor(monitors.ToArray());
 
 			if (_monitors.ContainsKey(deviceToSubscribe.Id))
 			{

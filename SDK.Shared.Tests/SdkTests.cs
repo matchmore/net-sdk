@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Matchmore.SDK;
-using Matchmore.SDK.Persistence;
+using static Matchmore.Tests.Utils;
 using NUnit.Framework;
 
-namespace SDK.iOS.Tests
+namespace Matchmore.Tests
 {
 	[TestFixture]
-	public class SdkTests
+	public class SdkTests : TestBase
 	{
 		private Matchmore.SDK.Matchmore _instance;
 		private IMatchMonitor _monitor;
@@ -16,29 +16,8 @@ namespace SDK.iOS.Tests
 		[SetUp]
 		public void Setup()
 		{
-			var r = Task.Run(async () =>
-			{
-				IStateManager stateManager = null;
-#if __ANDROID__
-				stateManager = new AndroidStateManager("test", "test_state.data");
-#else
-#if __IOS__
-				stateManager = new iOSStateManager("test", "test_state.data");
-#else
-				stateManager = new SimpleJsonStateManager("test", "test_state.data");
-#endif
-#endif
-
-				stateManager.WipeData();
-
-				await Matchmore.SDK.Matchmore.ConfigureAsync(new Matchmore.SDK.GenericConfig
-				{
-					ApiKey = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJhbHBzIiwic3ViIjoiZDFhMDhkMjUtOGNjNi00ZjhhLWFlZjAtYjNiNjc5MDE2MjFmIiwiYXVkIjpbIlB1YmxpYyJdLCJuYmYiOjE1MjU3MDI3ODksImlhdCI6MTUyNTcwMjc4OSwianRpIjoiMSJ9.ht7KJrXGXkh8xqC9cFYAJV7NS0kSti3YidUB2nTyeHm7REsIhNKlwuDyfxSkeQZE6o0OHWegn7hZcHoAvW5QOw",
-					Environment = "130.211.39.172",
-					StateManager = stateManager
-				});
-			});
-			Task.WaitAll(r);
+			Matchmore.SDK.Matchmore.Reset();
+			SetupDevInstance();
 			_instance = Matchmore.SDK.Matchmore.Instance;
 			Assert.NotNull(_instance);
 		}
@@ -139,20 +118,7 @@ namespace SDK.iOS.Tests
 
 		private TestMatchSetup SetupTestMatch()
 		{
-			return RunSync(() => SetupMatchAsync());
-		}
-
-		private static T RunSync<T>(Func<Task<T>> task)
-		{
-			var r = Task.Run(async () => await task());
-			Task.WaitAll(r);
-			return r.Result;
-		}
-
-		private static void RunSync(Func<Task> task)
-		{
-			var r = Task.Run(async () => await task());
-			Task.WaitAll(r);
+			return Utils.RunSync(() => SetupMatchAsync());
 		}
 
 		private async Task<TestMatchSetup> SetupMatchAsync()

@@ -13,6 +13,7 @@ namespace Matchmore.SDK
 		public IStateManager StateManager { get; set; }
 		public IDeviceInfoProvider DeviceInfoProvider { get; set; }
 		public HttpClient HttpClient { get; set; }
+		public ILocationService LocationService { get; set ; }
 
 		public void SetupDefaults()
 		{

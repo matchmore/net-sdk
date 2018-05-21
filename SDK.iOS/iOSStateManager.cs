@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Matchmore.SDK.Persistence;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(iOSStateManager))]
 namespace Matchmore.SDK.Persistence
 {
 	public class iOSStateManager : SimpleJsonStateManager, IStateManager

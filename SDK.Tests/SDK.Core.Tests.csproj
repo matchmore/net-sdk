@@ -10,8 +10,6 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0-preview-20170628-02" />
     <PackageReference Include="NUnit" Version="3.10.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
-    <PackageReference Include="Xamarin.Forms" Version="3.0.0.482510" />
-    <PackageReference Include="Xam.Plugin.Geolocator" Version="4.2.0" />
   </ItemGroup>
 
   <Import Project="..\SDK.Shared.Tests\SDK.Shared.Tests.projitems" Label="Shared" Condition="Exists('..\SDK.Shared.Tests\SDK.Shared.Tests.projitems')" />

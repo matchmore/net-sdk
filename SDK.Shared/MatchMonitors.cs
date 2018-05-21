@@ -98,7 +98,10 @@ namespace Matchmore.SDK
 			var matches = await _client.GetMatchesAsync(_deviceToSubscribe.Id, _cancelationTokenSource.Token);
 			MatchReceived?.Invoke(this, new MatchReceivedEventArgs(_deviceToSubscribe, MatchChannel.Polling, matches));
 
-		}, TimeSpan.FromSeconds(10), _cancelationTokenSource.Token, TaskCreationOptions.LongRunning);
+		}, 
+			                                  pollInterval: TimeSpan.FromSeconds(10),
+											  token: _cancelationTokenSource.Token,
+											  taskCreationOptions: TaskCreationOptions.LongRunning);
 			return Task.FromResult<object>(null);
 		}
 
@@ -149,7 +152,7 @@ namespace Matchmore.SDK
 			}, _cancelationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 		}
 
-		private async Task ReadMessage()
+		async Task ReadMessage()
 		{
 			WebSocketReceiveResult result;
 			var message = new ArraySegment<byte>(new byte[4096]);
@@ -176,11 +179,7 @@ namespace Matchmore.SDK
 			while (!result.EndOfMessage);
 		}
 
-		private bool IsMatchId(string matchId)
-		{
-			Guid x;
-			return Guid.TryParse(matchId, out x);
-		}
+		bool IsMatchId(string matchId) => Guid.TryParse(matchId, out Guid x);
 
 		public event EventHandler<MatchReceivedEventArgs> MatchReceived;
 

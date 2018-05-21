@@ -40,6 +40,12 @@ namespace Matchmore.SDK
         /// </summary>
         /// <value>The device info provider.</value>
         IDeviceInfoProvider DeviceInfoProvider { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location service.
+        /// </summary>
+        /// <value>The location service.</value>
+		ILocationService LocationService { get; set; }
         /// <summary>
         /// Gets or sets the http client which will be used to issue requests
         /// </summary>

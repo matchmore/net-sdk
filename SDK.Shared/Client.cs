@@ -106,12 +106,6 @@ namespace Matchmore.SDK
                             }
                         }
                         else
-                        if (status_ == "403") 
-                        {
-                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new SwaggerException("Failed to create device because device limit was exceeded.", (int)response_.StatusCode, responseData_, headers_, null);
-                        }
-                        else
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
                             var result_ = default(APIError); 

@@ -33,6 +33,12 @@ namespace Matchmore.SDK.Persistence
         List<PinDevice> Pins { get; }
 
         /// <summary>
+        /// Gets a value indicating whether this <see cref="T:Matchmore.SDK.Persistence.IStateManager"/> is loaded.
+        /// </summary>
+        /// <value><c>true</c> if is loaded; otherwise, <c>false</c>.</value>
+        bool IsLoaded { get; }
+
+        /// <summary>
         /// Adds the pin device.
         /// </summary>
         /// <param name="pinDevice">Pin device.</param>

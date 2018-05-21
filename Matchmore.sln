@@ -27,7 +27,9 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SDK.Shared.Tests", "SDK.Sha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDK.iOS.Tests", "SDK.iOS.Tests\SDK.iOS.Tests.csproj", "{C8526C68-0473-4DF0-9099-59409CCAFBF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDK.Tests", "SDK.Tests\SDK.Tests.csproj", "{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDK.Core.Tests", "SDK.Tests\SDK.Core.Tests.csproj", "{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SDK.Xamarin.Shared", "SDK.Xamarin.Shared\SDK.Xamarin.Shared.shproj", "{8C498710-46A8-4FB0-BFD3-51AFF383CB41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

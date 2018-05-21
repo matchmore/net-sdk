@@ -12,12 +12,15 @@ namespace SDK.Androind.Tests
     {
         protected override void OnCreate(Bundle bundle)
         {
+   
+			const string p1 = Android.Manifest.Permission.AccessFineLocation;
+			const string p2 = Android.Manifest.Permission.AccessCoarseLocation;
+			RequestPermissions(new string[] { p1, p2 }, 0);
+
+			var x1 = CheckSelfPermission(p1);
+			var x2 = CheckSelfPermission(p2);
             // tests can be inside the main assembly
             AddTest(Assembly.GetExecutingAssembly());
-
-			Xamarin.Forms.Forms.Init(this, bundle);
-
-            Task.WaitAll(r);
 
             // or in any reference assemblies
             // AddTest (typeof (Your.Library.TestClass).Assembly);

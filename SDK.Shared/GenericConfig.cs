@@ -19,6 +19,7 @@ namespace Matchmore.SDK
 		public IStateManager StateManager { get; set; }
 		public IDeviceInfoProvider DeviceInfoProvider { get; set; }
 		public HttpClient HttpClient { get; set; }
+		public ILocationService LocationService { get; set; }
 
 		public void SetupDefaults()
 		{
@@ -29,24 +30,25 @@ namespace Matchmore.SDK
 		}
 	}
 
-	public class ConfigBuilder{
+	public partial class ConfigBuilder
+	{
 		public static IConfig WithApiKey(string apiKey)
-        {
+		{
 			IConfig config = null;
-#if __ANDROID__
-			config = new AndroidConfig();
-#else
-#if __IOS__
-			config = new iOSConfig();
+#if __ANDROID__ || __IOS__
+			if (ConfigBuilder.MobileConfig == null)
+			{
+				throw new MatchmoreException("Mobile config wasn't bootstrapped");
+			}
+			config = ConfigBuilder.MobileConfig;
 #else
 			config = new GenericConfig();
-#endif
 #endif
 
 			config.ApiKey = apiKey;
 			config.UseSecuredCommunication = true;
 
 			return config;
-        }
+		}
 	}
 }
