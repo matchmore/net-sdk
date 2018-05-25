@@ -33,7 +33,7 @@ namespace Matchmore.SDK
         /// Gets or sets the state manager.
         /// </summary>
         /// <value>The state manager.</value>
-        IStateManager StateManager { get; set; }
+        IStateRepository StateManager { get; set; }
 
         /// <summary>
         /// Gets or sets the device info provider.

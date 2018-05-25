@@ -6,7 +6,11 @@ using System;
 
 namespace Matchmore.SDK.Persistence
 {
-    public class SimpleJsonStateManager : IStateManager
+    /// <summary>
+    /// Simple json state repository.
+	/// A reference implementation for a matchmore client side specific state repo using a simple file which hold json
+    /// </summary>
+    public class SimpleJsonStateRepository : IStateRepository
     {
         private State _state;
         private string _env;
@@ -23,15 +27,12 @@ namespace Matchmore.SDK.Persistence
         {
             get
             {
-                if (_state == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return _state.Device;
-                }
-            }
+				if (_state == null)
+				{
+					return null;
+				}
+				return _state.MainDevice;
+			}
         }
 
 		public void SetMainDevice(Device device){
@@ -40,19 +41,28 @@ namespace Matchmore.SDK.Persistence
                 _state = new State();
             }
 
-            _state.Device = device;
+            _state.MainDevice = device;
+			Save();
 		}
 
 
-		public List<Subscription> ActiveSubscriptions => _state.Subscriptions;
+		public IEnumerable<Subscription> ActiveSubscriptions => _state.Subscriptions.Where(pub => pub.IsAlive());
 
-		public List<Publication> ActivePublications => _state.Publications;
+		public IEnumerable<Publication> ActivePublications => _state.Publications.Where(pub => pub.IsAlive());
 
-		public List<PinDevice> Pins => _state.Pins;
+		public void PruneDead()
+        {
+			_state.Publications = ActivePublications.ToList();
+			_state.Subscriptions = ActiveSubscriptions.ToList();
+
+            Save();
+        }      
+
+		public IEnumerable<Device> Devices => _state.Devices.AsReadOnly();
 
 		public bool IsLoaded => _isLoaded;
 
-		public SimpleJsonStateManager(string env, string persistenceFile = null)
+		public SimpleJsonStateRepository(string env, string persistenceFile = null)
         {
             _env = env;
             _persistenceFile = string.IsNullOrEmpty(persistenceFile) ? "state.data" : persistenceFile;
@@ -101,7 +111,7 @@ namespace Matchmore.SDK.Persistence
 
 		private bool IsCorrectEnv(State state) => state.Environment == _env;
 
-		public void Save()
+		void Save()
         {
             if (_state.IsDirty())
             {
@@ -124,23 +134,47 @@ namespace Matchmore.SDK.Persistence
             Save();
         }
 
+		public void RemoveSubscription(Subscription sub)
+        {
+			var subToDelete = _state.Subscriptions.FirstOrDefault(p => sub.Id == p.Id);
+            if (subToDelete == null)
+                return;
+			_state.Subscriptions.Remove(subToDelete);   
+			Save();
+		}
+
         public void AddPublication(Publication pub)
         {
             _state.Publications.Add(pub);
             Save();
         }
 
-        public void AddPinDevice(PinDevice pinDevice)
+		public void RemovePublication(Publication pub)
         {
-            _state.Pins.Add(pinDevice);
+			var pubToDelete = _state.Publications.FirstOrDefault(p => pub.Id == p.Id);
+			if (pubToDelete == null)
+				return;
+			_state.Publications.Remove(pubToDelete);
+			Save();
+        }
+
+		public void UpsertDevice(Device device)
+        {
+			var existing = _state.Devices.FirstOrDefault(d => device.Id == d.Id);
+			if (existing!=null)
+				_state.Devices.Remove(existing);
+
+			_state.Devices.Add(device);
             Save();
         }
 
-        public void PruneDead()
+		public void RemoveDevice(Device device)
         {
-            _state.Publications = _state.Publications.Where(pub => pub.IsAlive()).ToList();
-
-            _state.Subscriptions = _state.Subscriptions.Where(sub => sub.IsAlive()).ToList();
-        }
-    }
+			var pinToDelete = _state.Devices.FirstOrDefault(p => device.Id == p.Id);
+            if (pinToDelete == null)
+                return;
+			_state.Devices.Remove(pinToDelete);
+            Save();        
+		}
+	}
 }

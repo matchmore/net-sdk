@@ -16,7 +16,7 @@ namespace Matchmore.SDK
 		public static readonly string API_VERSION = "v5";
 		public static readonly string PRODUCTION = "api.matchmore.io";
 		private ApiClient _client;
-		private readonly IStateManager _state;
+		private readonly IStateRepository _state;
 		private readonly IDeviceInfoProvider _deviceInfoProvider;
 		private string _environment;
 		private string _apiKey;
@@ -63,10 +63,9 @@ namespace Matchmore.SDK
 			private set
 			{
 				_state.SetMainDevice(value);
-				_state.Save();
 			}
 		}
-        
+
 		/// <summary>
 		/// Gets the API URL.
 		/// </summary>
@@ -94,7 +93,7 @@ namespace Matchmore.SDK
 			await ConfigureAsync(ConfigBuilder.WithApiKey(apiKey)).ConfigureAwait(false);
 		}
 
-		public static async Task ConfigureAsync(IConfig config)
+		public static Task ConfigureAsync(IConfig config)
 		{
 			if (_instance != null)
 			{
@@ -104,6 +103,7 @@ namespace Matchmore.SDK
 			config.SetupDefaults();
 
 			_instance = new Matchmore(config);
+			return Task.CompletedTask;
 		}
 
 		public static void Reset()
@@ -115,7 +115,6 @@ namespace Matchmore.SDK
 			}
 		}
 
-		//
 		public static Matchmore Instance
 		{
 			get
@@ -164,15 +163,15 @@ namespace Matchmore.SDK
 		public void StartLocationService()
 		{
 			EventHandler<Events.LocationUpdatedEventArgs> onLocationUpdated = async (object sender, Events.LocationUpdatedEventArgs e) =>
-            {
-                var location = e.Location;
-                await _client.CreateLocationAsync(MainDevice.Id, new Location
-                {
-                    Longitude = location.Longitude,
-                    Altitude = location.Altitude,
-                    Latitude = location.Latitude
-                });
-            };
+			{
+				var location = e.Location;
+				await _client.CreateLocationAsync(MainDevice.Id, new Location
+				{
+					Longitude = location.Longitude,
+					Altitude = location.Altitude,
+					Latitude = location.Latitude
+				});
+			};
 
 			if (_locationService != null)
 			{
@@ -192,7 +191,13 @@ namespace Matchmore.SDK
 		{
 			_state.WipeData();
 		}
-        
+
+		/// <summary>
+		/// Gets the devices. All device types included
+		/// </summary>
+		/// <value>The devices.</value>
+		public IEnumerable<Device> Devices => _state.Devices;
+
 		/// <summary>
 		/// Creates the device.
 		/// </summary>
@@ -248,52 +253,58 @@ namespace Matchmore.SDK
 			{
 				MainDevice = deviceInBackend;
 			}
+			else
+			{
+				_state.UpsertDevice(deviceInBackend);
+			}
 			return deviceInBackend;
 		}
 
 		/// <summary>
-		/// Creates the pin device.
+		/// Updates the device.
 		/// </summary>
-		/// <returns>The pin device.</returns>
-		/// <param name="pinDevice">Pin device.</param>
-		public async Task<PinDevice> CreatePinDevice(PinDevice pinDevice, bool ignorePersistence = false)
+		/// <returns>The device.</returns>
+		/// <param name="deviceUpdate">Device update.</param>
+		/// <param name="deviceId">Device identifier.</param>
+		public async Task<Device> UpdateDeviceAsync(DeviceUpdate deviceUpdate, string deviceId = null)
 		{
-			if (pinDevice.Location == null)
+			var _deviceId = deviceId ?? MainDevice.Id;
+			var updatedDevice = await _client.UpdateDeviceAsync(deviceId, deviceUpdate);
+			var (device, isMain) = FindDevice(updatedDevice.Id);
+			if (isMain)
 			{
-				throw new ArgumentException("Location required for Pin Device");
+				MainDevice = updatedDevice;
 			}
-
-			var createdDevice = await _client.CreateDeviceAsync(pinDevice).ConfigureAwait(false);
-
-			//The generated swagger api returns a generic device partially losing the information about the pin.
-			//We rewrite the data to fit the pin device contract.
-			var createdPin = new PinDevice
+			else
 			{
-				Id = createdDevice.Id,
-				CreatedAt = createdDevice.CreatedAt,
-				Location = pinDevice.Location,
-				Group = createdDevice.Group,
-				Name = createdDevice.Name,
-				UpdatedAt = createdDevice.UpdatedAt
-			};
-			if (!ignorePersistence)
-				_state.AddPinDevice(createdPin);
+				_state.UpsertDevice(updatedDevice);
+			}
+			return updatedDevice;
+		}
 
-			return createdPin;
+		public async Task DeleteDeviceAsync(string deviceId)
+		{
+			var (device, isMain) = FindDevice(deviceId);
+			if (isMain)
+				throw new MatchmoreException("You cannot delete your main device");
+			await _client.DeleteDeviceAsync(deviceId);
+
+			if (device != null)
+				_state.RemoveDevice(device);
 		}
 
 		/// <summary>
-		/// Creates the pin device and start listening. This is useful when the device also manages pins
+		/// Creates the device and start listening. This is useful when the device also manages pins
 		/// </summary>
 		/// <returns>The pin device and start listening.</returns>
-		/// <param name="pinDevice">Pin device.</param>
+		/// <param name="device">Device.</param>
 		/// <param name="channel">Channel.</param>
-		public async Task<Tuple<PinDevice, IMatchMonitor>> CreatePinDeviceAndStartListening(PinDevice pinDevice, MatchChannel channel)
+		public async Task<(Device, IMatchMonitor)> CreateDeviceAndStartListening(Device device, MatchChannel channel)
 		{
-			var createdDevice = await CreatePinDevice(pinDevice).ConfigureAwait(false);
+			var createdDevice = await CreateDeviceAsync(device).ConfigureAwait(false);
 			var monitor = SubscribeMatches(channel, createdDevice);
 
-			return Tuple.Create(createdDevice, monitor);
+			return (createdDevice, monitor);
 		}
 
 		/// <summary>
@@ -304,8 +315,8 @@ namespace Matchmore.SDK
 		/// <param name="device">Device, if null will default to main device</param>
 		public async Task<Subscription> CreateSubscriptionAsync(Subscription sub, Device device = null)
 		{
-			var usedDevice = device != null ? device : _state.MainDevice;
-			return await CreateSubscription(sub, usedDevice.Id).ConfigureAwait(false);
+			var usedDevice = device ?? _state.MainDevice;
+			return await CreateSubscriptionAsync(sub, usedDevice.Id).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -315,7 +326,7 @@ namespace Matchmore.SDK
 		/// <param name="sub">Sub.</param>
 		/// <param name="deviceId">Device identifier.</param>
 		/// <param name="ignorePersistence">If set to <c>true</c> ignore persistence.</param>
-		public async Task<Subscription> CreateSubscription(Subscription sub, string deviceId, bool ignorePersistence = false)
+		public async Task<Subscription> CreateSubscriptionAsync(Subscription sub, string deviceId, bool ignorePersistence = false)
 		{
 			if (string.IsNullOrEmpty(deviceId))
 			{
@@ -339,8 +350,8 @@ namespace Matchmore.SDK
 		/// <param name="device">Device, if null will default to main device</param>
 		public async Task<Publication> CreatePublicationAsync(Publication pub, Device device = null)
 		{
-			var usedDevice = device != null ? device : _state.MainDevice;
-			return await CreatePublication(pub, usedDevice.Id).ConfigureAwait(false);
+			var usedDevice = device ?? _state.MainDevice;
+			return await CreatePublicationAsync(pub, usedDevice.Id).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -350,7 +361,7 @@ namespace Matchmore.SDK
 		/// <param name="pub">Pub.</param>
 		/// <param name="deviceId">Device identifier.</param>
 		/// /// <param name="ignorePersistence">If set to <c>true</c> ignore persistence.</param>
-		public async Task<Publication> CreatePublication(Publication pub, string deviceId, bool ignorePersistence = false)
+		public async Task<Publication> CreatePublicationAsync(Publication pub, string deviceId, bool ignorePersistence = false)
 		{
 			if (string.IsNullOrEmpty(deviceId))
 			{
@@ -374,8 +385,8 @@ namespace Matchmore.SDK
 		/// <param name="device">Device, if null will default to main device</param>
 		public async Task UpdateLocationAsync(Location location, Device device = null)
 		{
-			var usedDevice = device != null ? device : _state.MainDevice;
-			await UpdateLocation(location, usedDevice.Id).ConfigureAwait(false);
+			var usedDevice = device ?? _state.MainDevice;
+			await UpdateLocationAsync(location, usedDevice.Id).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -384,7 +395,7 @@ namespace Matchmore.SDK
 		/// <returns>The location.</returns>
 		/// <param name="location">Location.</param>
 		/// <param name="deviceId">Device identifier.</param>
-		public async Task UpdateLocation(Location location, string deviceId)
+		public async Task UpdateLocationAsync(Location location, string deviceId)
 		{
 			if (string.IsNullOrEmpty(deviceId))
 			{
@@ -402,8 +413,8 @@ namespace Matchmore.SDK
 		/// <param name="device">Device, if null will default to main device</param>
 		public async Task<List<Match>> GetMatchesAsync(Device device = null)
 		{
-			var usedDevice = device != null ? device : _state.MainDevice;
-			return await GetMatches(usedDevice.Id).ConfigureAwait(false);
+			var usedDevice = device ?? _state.MainDevice;
+			return await GetMatchesAsync(usedDevice.Id).ConfigureAwait(false);
 		}
 
 		/// <summary>
@@ -411,7 +422,7 @@ namespace Matchmore.SDK
 		/// </summary>
 		/// <returns>The matches.</returns>
 		/// <param name="deviceId">Device identifier.</param>
-		public async Task<List<Match>> GetMatches(string deviceId)
+		public async Task<List<Match>> GetMatchesAsync(string deviceId)
 		{
 			if (string.IsNullOrEmpty(deviceId))
 			{
@@ -434,7 +445,7 @@ namespace Matchmore.SDK
 				throw new ArgumentException("Device Id null or empty");
 			}
 
-			return SubscribeMatches(channel, FindDevice(deviceId));
+			return SubscribeMatches(channel, FindDevice(deviceId).device);
 		}
 
 		/// <summary>
@@ -455,15 +466,16 @@ namespace Matchmore.SDK
 			if (channel.HasFlag(MatchChannel.Websocket))
 				monitors.Add(new WebsocketMatchMonitor(_client, deviceToSubscribe, _worldId));
 
-			if (channel.HasFlag(MatchChannel.APNS)){
+			if (channel.HasFlag(MatchChannel.APNS))
+			{
 				//todo
 			}
 
 			if (channel.HasFlag(MatchChannel.FCM))
-            {
-                //todo
-            }
-            
+			{
+				//todo
+			}
+
 			if (!monitors.Any())
 				throw new MatchmoreException("Invalid match monitors");
 
@@ -471,7 +483,7 @@ namespace Matchmore.SDK
 			if (monitors.Count == 1)
 				monitor = monitors.Single();
 			else
-                monitor = new MultiChannelMatchMonitor(monitors.ToArray());
+				monitor = new MultiChannelMatchMonitor(monitors.ToArray());
 
 			if (_monitors.ContainsKey(deviceToSubscribe.Id))
 			{
@@ -490,53 +502,58 @@ namespace Matchmore.SDK
 		}
 
 
-		private Device FindDevice(string deviceId)
+		public async Task DeletePublicationAsync(string pubId, string deviceId = null)
+		{
+			var _deviceId = deviceId ?? MainDevice.Id;
+
+			await _client.DeletePublicationAsync(_deviceId, pubId);
+			var ac = _state.ActivePublications.FirstOrDefault(p => p.Id == pubId);
+			if (ac != null)
+				_state.RemovePublication(ac);
+		}
+
+		public async Task DeleteSubscriptionAsync(string subId, string deviceId = null)
+		{
+			var _deviceId = deviceId ?? MainDevice.Id;
+
+			await _client.DeleteSubscriptionAsync(_deviceId, subId);
+			var ac = _state.ActiveSubscriptions.FirstOrDefault(p => p.Id == subId);
+			if (ac != null)
+				_state.RemoveSubscription(ac);
+		}
+
+
+		(Device device, bool isMain) FindDevice(string deviceId)
 		{
 			if (_state.MainDevice.Id == deviceId)
-				return _state.MainDevice;
-			
-			return _state.Pins.Find(pin => pin.Id == deviceId);
+				return (_state.MainDevice, true);
+
+			return (_state.Devices.FirstOrDefault(pin => pin.Id == deviceId), false);
 		}
 
 		/// <summary>
 		/// Gets the active subscriptions.
 		/// </summary>
 		/// <value>The active subscriptions.</value>
-		public IEnumerable<Subscription> ActiveSubscriptions
-		{
-			get
-			{
-				return _state.ActiveSubscriptions.AsReadOnly();
-			}
-		}
+		public IEnumerable<Subscription> ActiveSubscriptions => _state.ActiveSubscriptions;
 
 		/// <summary>
 		/// Gets the active publications.
 		/// </summary>
 		/// <value>The active publications.</value>
-		public IEnumerable<Publication> ActivePublications
-		{
-			get
-			{
-				return _state.ActivePublications.AsReadOnly();
-			}
-		}
+		public IEnumerable<Publication> ActivePublications => _state.ActivePublications;
 
 		/// <summary>
 		/// Cleans up. Stops all monitors, destroys the game object
 		/// </summary>
-		public void CleanUp()
-		{
-			StopEverything();
-		}
+		public void CleanUp() => StopEverything();
 
 		public void StopEverything()
 		{
 			var keys = new List<string>(_monitors.Keys);
 			foreach (var key in keys)
 			{
-				IMatchMonitor monitor = null;
-				if (_monitors.TryGetValue(key, out monitor))
+				if (_monitors.TryGetValue(key, out IMatchMonitor monitor))
 					monitor.Stop();
 			}
 
@@ -546,7 +563,7 @@ namespace Matchmore.SDK
 
 		}
 
-		private class ApiKeyObject
+		class ApiKeyObject
 		{
 			public string Sub { get; set; }
 		}

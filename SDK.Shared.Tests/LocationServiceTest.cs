@@ -13,7 +13,7 @@ namespace Matchmore.Tests
 		[Test]
 		public void LocationServiceEmitEvent()
 		{
-			var service = new SimpleLocationService();
+			var service = new GeoPluginLocationService();
 			Location location = null;
 			service.LocationUpdated += (sender, e) => location = e.Location;
 			service.Start();

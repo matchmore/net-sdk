@@ -8,91 +8,75 @@ namespace Matchmore.SDK.Persistence
     {
         private bool _isDirty;
         private string environment;
-        private Device device;
+        private Device mainDevice;
         private List<Subscription> subscriptions;
         private List<Publication> publications;
-        private List<PinDevice> pins;
+        private List<Device> devices;
 
         [JsonProperty(PropertyName = "env")]
         public string Environment
-        {
-            get
-            {
-                return environment;
-            }
+		{
+			get => environment;
 
-            set
-            {
-                _isDirty = true;
-                environment = value;
-            }
-        }
+			set
+			{
+				_isDirty = true;
+				environment = value;
+			}
+		}
 
-        [JsonProperty(PropertyName = "device")]
-        public Device Device
-        {
-            get
-            {
-                return device;
-            }
+		[JsonProperty(PropertyName = "mainDevice")]
+        public Device MainDevice
+		{
+			get => mainDevice;
 
-            set
-            {
-                _isDirty = true;
-                device = value;
-            }
-        }
+			set
+			{
+				_isDirty = true;
+				mainDevice = value;
+			}
+		}
 
-        [JsonProperty(PropertyName = "subscriptions")]
+		[JsonProperty(PropertyName = "subscriptions")]
         public List<Subscription> Subscriptions
-        {
-            get
-            {
-                return subscriptions;
-            }
+		{
+			get => subscriptions;
 
-            set
-            {
-                _isDirty = true;
-                subscriptions = value;
-            }
-        }
+			set
+			{
+				_isDirty = true;
+				subscriptions = value;
+			}
+		}
 
-        [JsonProperty(PropertyName = "publications")]
+		[JsonProperty(PropertyName = "publications")]
         public List<Publication> Publications
-        {
-            get
-            {
-                return publications;
-            }
+		{
+			get => publications;
 
-            set
-            {
-                _isDirty = true;
-                publications = value;
-            }
-        }
+			set
+			{
+				_isDirty = true;
+				publications = value;
+			}
+		}
 
-        [JsonProperty(PropertyName = "pins")]
-        public List<PinDevice> Pins
-        {
-            get
-            {
-                return pins;
-            }
+		[JsonProperty(PropertyName = "devices")]
+        public List<Device> Devices
+		{
+			get => devices;
 
-            set
-            {
-                _isDirty = true;
-                pins = value;
-            }
-        }
-
-        public State()
+			set
+			{
+				_isDirty = true;
+				devices = value;
+			}
+		}      
+		public State()
         {
             Subscriptions = new List<Subscription>();
             Publications = new List<Publication>();
-            Pins = new List<PinDevice>();
+			Devices = new List<Device>();
         }
 
         public bool IsDirty()

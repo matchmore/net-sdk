@@ -2,7 +2,7 @@
 
 namespace Matchmore.SDK.Persistence
 {
-    public interface IStateManager
+    public interface IStateRepository
     {
 		/// <summary>
         /// Device which is considered as main device
@@ -20,17 +20,17 @@ namespace Matchmore.SDK.Persistence
         /// Gets the active subscriptions.
         /// </summary>
         /// <value>The active subscriptions.</value>
-        List<Subscription> ActiveSubscriptions { get; }
+		IEnumerable<Subscription> ActiveSubscriptions { get; }
         /// <summary>
         /// Gets the active publications.
         /// </summary>
         /// <value>The active publications.</value>
-        List<Publication> ActivePublications { get; }
+		IEnumerable<Publication> ActivePublications { get; }
         /// <summary>
-        /// Gets the pins.
+        /// Gets the devices.
         /// </summary>
-        /// <value>The pins.</value>
-        List<PinDevice> Pins { get; }
+        /// <value>The devices.</value>
+		IEnumerable<Device> Devices { get; }
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="T:Matchmore.SDK.Persistence.IStateManager"/> is loaded.
@@ -39,28 +39,39 @@ namespace Matchmore.SDK.Persistence
         bool IsLoaded { get; }
 
         /// <summary>
-        /// Adds the pin device.
+        /// Adds the device.
         /// </summary>
-        /// <param name="pinDevice">Pin device.</param>
-        void AddPinDevice(PinDevice pinDevice);
+        /// <param name="device">Device.</param>
+		void UpsertDevice(Device device);
+        /// <summary>
+        /// Removes the device.
+        /// </summary>
+        /// <param name="device">Device.</param>
+		void RemoveDevice(Device device);
         /// <summary>
         /// Adds a publication.
         /// </summary>
         /// <param name="pub">Pub.</param>
         void AddPublication(Publication pub);
         /// <summary>
+        /// Removes the publication.
+        /// </summary>
+        /// <param name="pub">Pub.</param>
+		void RemovePublication(Publication pub);
+        /// <summary>
         /// Adds a subscription.
         /// </summary>
         /// <param name="sub">Sub.</param>
         void AddSubscription(Subscription sub);
         /// <summary>
+        /// Removes the subscription.
+        /// </summary>
+        /// <param name="sub">Sub.</param>
+		void RemoveSubscription(Subscription sub);
+        /// <summary>
         /// Loads current state from the file
         /// </summary>
         void Load();
-        /// <summary>
-        /// Saves current state to the file
-        /// </summary>
-        void Save();
         /// <summary>
         /// Wipes the data.
         /// </summary>

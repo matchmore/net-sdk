@@ -10,7 +10,7 @@ namespace Matchmore.SDK.Xamarin.Shared
         public string Environment { get; set; }
         public bool UseSecuredCommunication { get; set; }
         public int? ServicePort { get; set; }
-        public IStateManager StateManager { get; set; }
+        public IStateRepository StateManager { get; set; }
         public IDeviceInfoProvider DeviceInfoProvider { get; set; }
         public HttpClient HttpClient { get; set; }
         public ILocationService LocationService { get; set; }
@@ -19,7 +19,7 @@ namespace Matchmore.SDK.Xamarin.Shared
         {
 			StateManager = StateManager ?? new MobileStateManager();
 			DeviceInfoProvider = DeviceInfoProvider ?? new SimpleDeviceInfo();
-			LocationService = LocationService ?? new SimpleLocationService();
+			LocationService = LocationService ?? new GeoPluginLocationService();
 
             HttpClient = HttpClient ?? new HttpClient();
         }

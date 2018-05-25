@@ -3,7 +3,7 @@ using Matchmore.SDK.Persistence;
 
 namespace Matchmore.SDK.Xamarin.Shared
 {
-	public class MobileStateManager : SimpleJsonStateManager, IStateManager
+	public class MobileStateManager : SimpleJsonStateRepository, IStateRepository
     {
         public override string PersistenceDirectory => Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 

@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Matchmore.SDK;
 using Matchmore.SDK.Persistence;
+using static Matchmore.Tests.Utils;
+using NUnit.Framework;
+using System.Collections.Generic;
 #if __ANDROID__ || __IOS__
 using Matchmore.SDK.Xamarin.Shared;
 #endif
@@ -8,19 +12,39 @@ using Matchmore.SDK.Xamarin.Shared;
 namespace Matchmore.Tests
 {
 	public class TestBase
-	{
-		public string apiKey = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJhbHBzIiwic3ViIjoiMzIyNzliODEtODBkMS00MmFkLTgyNjEtNDE1MDlmNjM0NWRlIiwiYXVkIjpbIlB1YmxpYyJdLCJuYmYiOjE1MjY5MTE3NDYsImlhdCI6MTUyNjkxMTc0NiwianRpIjoiMSJ9.9ppoTeyGwhk9tERCThmJgXcenMvnggxWq53QTMxokyRi9AU0BETYPoBttdjPaPWhCvJpnxpercLATqt9nwt9ow";
+	{   public string apiKey = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJhbHBzIiwic3ViIjoiMzIyNzliODEtODBkMS00MmFkLTgyNjEtNDE1MDlmNjM0NWRlIiwiYXVkIjpbIlB1YmxpYyJdLCJuYmYiOjE1MjY5MTE3NDYsImlhdCI6MTUyNjkxMTc0NiwianRpIjoiMSJ9.9ppoTeyGwhk9tERCThmJgXcenMvnggxWq53QTMxokyRi9AU0BETYPoBttdjPaPWhCvJpnxpercLATqt9nwt9ow";
+		protected static Matchmore.SDK.Matchmore _instance;
+
+		protected Subscription sub = new Subscription
+        {
+            Topic = "Unity",
+            Duration = 30,
+            Range = 100,
+            Selector = "test = true and price <= 200",
+            Pushers = new List<string> { "ws" }
+        };
+
+		protected Publication pub = new Publication
+		{
+			Topic = "Unity",
+			Duration = 30,
+			Range = 100,
+			Properties = new Dictionary<string, object>(){
+				{"test", true},
+				{"price", 199}
+			}
+		};
 
 		public void SetupDevInstance()
 		{
 			Matchmore.SDK.Matchmore.Reset();
 			var r = Task.Run(async () =>
 			{
-				IStateManager stateManager = null;
+				IStateRepository stateManager = null;
 #if __ANDROID__ || __IOS__
 				stateManager = new MobileStateManager("test", "test_state.data");
 #else
-                stateManager = new SimpleJsonStateManager("test", "test_state.data");
+                stateManager = new SimpleJsonStateRepository("test", "test_state.data");
 #endif
 
 				stateManager.WipeData();
@@ -36,5 +60,60 @@ namespace Matchmore.Tests
 			});
 			Task.WaitAll(r);
 		}
+
+		internal class TestMatchSetup
+        {
+            public Subscription Subscription { get; set; }
+            public Publication Publication { get; set; }
+            public Device PublishingDevice { get; set; }
+        }
+
+
+		internal TestMatchSetup SetupTestMatch()
+        {
+            return RunSync(() => SetupMatchAsync());
+        }
+
+		internal async Task<TestMatchSetup> SetupMatchAsync()
+        {
+            var pubDevice = await _instance.CreateDeviceAsync(new MobileDevice
+            {
+                Name = "Publisher"
+            });
+
+
+            Assert.NotNull(pubDevice);
+            Assert.NotNull(pubDevice.Id);
+
+
+			var _sub = await _instance.CreateSubscriptionAsync(sub);
+            Assert.NotNull(_sub);
+            Assert.NotNull(_sub.Id);
+
+			var _pub = await _instance.CreatePublicationAsync(pub, pubDevice);
+
+            Assert.NotNull(_pub);
+            Assert.NotNull(_pub.Id);
+
+            await _instance.UpdateLocationAsync(new Location
+            {
+                Latitude = 54.414662,
+                Longitude = 18.625498
+            });
+
+            await _instance.UpdateLocationAsync(new Location
+            {
+                Latitude = 54.414662,
+                Longitude = 18.625498
+            }, pubDevice);
+
+            return new TestMatchSetup()
+            {
+                Subscription = _sub,
+                Publication = _pub,
+                PublishingDevice = pubDevice
+            };
+
+        }
 	}
 }

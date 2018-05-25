@@ -41,9 +41,6 @@ namespace Matchmore.Tests
 					threw = true;
 					Assert.AreEqual(403, ex.StatusCode);
 				}
-				catch(Exception e){
-					
-				}
 				Assert.IsTrue(threw);
 
 			});

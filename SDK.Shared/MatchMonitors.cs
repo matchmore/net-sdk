@@ -102,7 +102,7 @@ namespace Matchmore.SDK
 			                                  pollInterval: TimeSpan.FromSeconds(10),
 											  token: _cancelationTokenSource.Token,
 											  taskCreationOptions: TaskCreationOptions.LongRunning);
-			return Task.FromResult<object>(null);
+			return Task.CompletedTask;
 		}
 
 		public event EventHandler<MatchReceivedEventArgs> MatchReceived;
@@ -110,7 +110,7 @@ namespace Matchmore.SDK
 		public Task Stop()
 		{
 			_cancelationTokenSource.Cancel();
-			return Task.FromResult<object>(null);
+			return Task.CompletedTask;
 		}
 	}
 

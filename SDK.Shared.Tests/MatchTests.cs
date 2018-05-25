@@ -8,9 +8,9 @@ using NUnit.Framework;
 namespace Matchmore.Tests
 {
 	[TestFixture]
-	public class SdkTests : TestBase
+	public class MatchTests : TestBase
 	{
-		private Matchmore.SDK.Matchmore _instance;
+       
 		private IMatchMonitor _monitor;
 
 		[SetUp]
@@ -47,7 +47,7 @@ namespace Matchmore.Tests
 		public void GetMatchByPollingMonitor()
 		{
 			_monitor = _instance.SubscribeMatches(MatchChannel.Polling);
-			RunSync(() => _monitor.Start());
+			RunSync(_monitor.Start);
 			List<Match> matches = null;
 			_monitor.MatchReceived += (object sender, MatchReceivedEventArgs e) => matches = e.Matches;
 
@@ -65,11 +65,50 @@ namespace Matchmore.Tests
 		}
 
 		[Test, MaxTime(60000)]
+        public void GetMatchForOtherDevice()
+        {
+			var _beacon = new IBeaconDevice
+            {
+                Major = 13,
+                Minor = 3,
+                ProximityUUID = Guid.NewGuid().ToString(),
+                Name = "bacon"
+            };
+
+			var (beacon, _monitor) = RunSync(() => _instance.CreateDeviceAndStartListening(_beacon, MatchChannel.Polling));
+
+			RunSync(() => _instance.UpdateLocationAsync(new Location
+            {
+                Latitude = 54.414662,
+                Longitude = 18.625498
+			}, beacon));
+
+            RunSync(_monitor.Start);
+            List<Match> matches = null;
+            _monitor.MatchReceived += (object sender, MatchReceivedEventArgs e) => matches = e.Matches;
+
+			RunSync(() => _instance.CreateSubscriptionAsync(sub, beacon));
+
+            var testMatch = SetupTestMatch();
+            Match match = null;
+            do
+            {
+                if (matches != null)
+                {
+					match = matches.Find(m => m.Subscription.DeviceId == beacon.Id);
+                }
+            } while (match == null);
+
+            Assert.NotNull(match);
+        }
+
+
+		[Test, MaxTime(60000)]
 		[Ignore("Websocket broken")]
 		public void GetMatchByWebsocketMonitor()
 		{
 			_monitor = _instance.SubscribeMatches(MatchChannel.Websocket);
-			RunSync(() => _monitor.Start());
+			RunSync(_monitor.Start);
 			List<Match> matches = null;
 			_monitor.MatchReceived += (object sender, MatchReceivedEventArgs e) => matches = e.Matches;
 
@@ -90,7 +129,7 @@ namespace Matchmore.Tests
 		public void GetMatchByMultiChannelMonitor()
 		{
 			_monitor = _instance.SubscribeMatches(MatchChannel.Polling | MatchChannel.Websocket);
-			RunSync(() => _monitor.Start());
+			RunSync(_monitor.Start);
 			List<Match> matches = null;
 			_monitor.MatchReceived += (object sender, MatchReceivedEventArgs e) => matches = e.Matches;
 
@@ -105,77 +144,6 @@ namespace Matchmore.Tests
 			} while (match == null);
 
 			Assert.NotNull(match);
-		}
-
-
-		internal class TestMatchSetup
-		{
-			public Subscription Subscription { get; set; }
-			public Publication Publication { get; set; }
-			public Device PublishingDevice { get; set; }
-		}
-
-
-		private TestMatchSetup SetupTestMatch()
-		{
-			return Utils.RunSync(() => SetupMatchAsync());
-		}
-
-		private async Task<TestMatchSetup> SetupMatchAsync()
-		{
-			var pubDevice = await _instance.CreateDeviceAsync(new MobileDevice
-			{
-				Name = "Publisher"
-			});
-
-
-			Assert.NotNull(pubDevice);
-			Assert.NotNull(pubDevice.Id);
-
-			var sub = await _instance.CreateSubscriptionAsync(new Subscription
-			{
-				Topic = "Unity",
-				Duration = 30,
-				Range = 100,
-				Selector = "test = true and price <= 200",
-				Pushers = new List<string>() { "ws" }
-			});
-			Assert.NotNull(sub);
-			Assert.NotNull(sub.Id);
-
-			var pub = await _instance.CreatePublicationAsync(new Publication
-			{
-				Topic = "Unity",
-				Duration = 30,
-				Range = 100,
-				Properties = new Dictionary<string, object>(){
-				{"test", true},
-				{"price", 199}
-			}
-			}, pubDevice);
-
-			Assert.NotNull(pub);
-			Assert.NotNull(pub.Id);
-
-			await _instance.UpdateLocationAsync(new Location
-			{
-				Latitude = 54.414662,
-				Longitude = 18.625498
-			});
-
-			await _instance.UpdateLocationAsync(new Location
-			{
-				Latitude = 54.414662,
-				Longitude = 18.625498
-			}, pubDevice);
-
-			return new TestMatchSetup()
-			{
-				Subscription = sub,
-				Publication = pub,
-				PublishingDevice = pubDevice
-			};
-
 		}
 	}
 }
