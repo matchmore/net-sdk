@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDK.Core.Tests", "SDK.Tests
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SDK.Xamarin.Shared", "SDK.Xamarin.Shared\SDK.Xamarin.Shared.shproj", "{8C498710-46A8-4FB0-BFD3-51AFF383CB41}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{0F19AC72-19E9-4934-8A59-7DF957AD2DD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

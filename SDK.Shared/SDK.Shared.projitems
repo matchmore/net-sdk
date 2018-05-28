@@ -26,7 +26,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)IConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\LocationUpdatedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GenericConfig.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Communication\ICommunicationUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication\IMatchChannelUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication\FCMTokenUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication\APNSTokenUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchId.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)project.json" />

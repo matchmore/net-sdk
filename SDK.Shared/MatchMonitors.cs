@@ -79,15 +79,14 @@ namespace Matchmore.SDK
 
 	public class PollingMatchMonitor : IMatchMonitor
 	{
-		private ApiClient _client;
+		private Matchmore _client;
 		private Device _deviceToSubscribe;
 		private CancellationTokenSource _cancelationTokenSource;
 
-		public PollingMatchMonitor(ApiClient client, Device deviceToSubscribe)
+		public PollingMatchMonitor(Matchmore client, Device deviceToSubscribe)
 		{
 			_client = client;
 			_deviceToSubscribe = deviceToSubscribe;
-
 		}
 
 		public Task Start()
@@ -95,7 +94,7 @@ namespace Matchmore.SDK
 			_cancelationTokenSource = new CancellationTokenSource();
 			RecurrentCancellableTask.StartNew(async () =>
 		{
-			var matches = await _client.GetMatchesAsync(_deviceToSubscribe.Id, _cancelationTokenSource.Token);
+			var matches = await _client.GetMatchesAsync(_deviceToSubscribe.Id);
 			MatchReceived?.Invoke(this, new MatchReceivedEventArgs(_deviceToSubscribe, MatchChannel.Polling, matches));
 
 		},
@@ -116,13 +115,13 @@ namespace Matchmore.SDK
 
 	public class WebsocketMatchMonitor : IMatchMonitor
 	{
-		private ApiClient _client;
+		private Matchmore _client;
 		private Device _deviceToSubscribe;
 		private readonly string _worldId;
 		private ClientWebSocket _ws;
 		private CancellationTokenSource _cancelationTokenSource;
 
-		public WebsocketMatchMonitor(ApiClient client, Device deviceToSubscribe, string worldId)
+		public WebsocketMatchMonitor(Matchmore client, Device deviceToSubscribe, string worldId)
 		{
 			_client = client;
 			_deviceToSubscribe = deviceToSubscribe;
@@ -137,7 +136,7 @@ namespace Matchmore.SDK
 			_ws.Options.AddSubProtocol("api-key");
 			_ws.Options.AddSubProtocol(_worldId);
 
-			var uri = _client.BaseUrl
+			var uri = _client.ApiUrl
 				  .Replace("http://", "ws://")
 				  .Replace("https://", "wss://")
 				  .Replace("/v5", "/pusher/v5/ws/" + _deviceToSubscribe.Id);
@@ -164,15 +163,20 @@ namespace Matchmore.SDK
 				var messageBytes = message.Skip(message.Offset).Take(result.Count).ToArray();
 				var messageStr = Encoding.UTF8.GetString(messageBytes);
 				if (messageStr == "ping")
+				{
 					await _ws.SendAsync(StringToByte("pong"), WebSocketMessageType.Text, true, _cancelationTokenSource.Token).ConfigureAwait(false);
-				else
+					continue;
+				}
 				if (messageStr == "pong")
+				{
 					await _ws.SendAsync(StringToByte("ping"), WebSocketMessageType.Text, true, _cancelationTokenSource.Token).ConfigureAwait(false);
-				if (!IsMatchId(messageStr))
+					continue;
+				}
+				if (!MatchId.TryParse(messageStr, out MatchId matchId))
 					continue;
 				try
 				{
-					var match = await _client.GetMatchAsync(_deviceToSubscribe.Id, messageStr).ConfigureAwait(false);
+					var match = await _client.GetMatchAsync(matchId, _deviceToSubscribe).ConfigureAwait(false);
 					MatchReceived?.Invoke(this, new MatchReceivedEventArgs(_deviceToSubscribe, MatchChannel.Websocket, new List<Match> { match }));
 				}
 				catch (Exception e)

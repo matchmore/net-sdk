@@ -29,7 +29,7 @@ namespace Matchmore.Tests
 			Matchmore.SDK.Matchmore.Reset();
 		}
 
-		[Test, MaxTime(60000)]
+		[Test, MaxTime(20000)]
 		public void GetMatchByExplicitCall()
 		{
 			var testMatch = SetupTestMatch();
@@ -43,7 +43,7 @@ namespace Matchmore.Tests
 			Assert.NotNull(match);
 		}
 
-		[Test, MaxTime(60000)]
+		[Test, MaxTime(20000)]
 		public void GetMatchByPollingMonitor()
 		{
 			_monitor = _instance.SubscribeMatches(MatchChannel.Polling);
@@ -65,7 +65,7 @@ namespace Matchmore.Tests
 			Assert.NotNull(match);
 		}
 
-		[Test, MaxTime(60000)]
+		[Test, MaxTime(20000)]
         public void GetMatchForOtherDevice()
         {
 			var _beacon = new IBeaconDevice
@@ -117,8 +117,13 @@ namespace Matchmore.Tests
 			Match match = null;
 			do
 			{
+				RunSync(() =>_instance.UpdateLocationAsync(new Location
+                {
+                    Latitude = 54.414662,
+                    Longitude = 18.625498
+				}));
 				if (matches != null)
-				{
+				{               
 					match = matches.Find(m => m.Publication.Id == testMatch.Publication.Id && m.Subscription.Id == testMatch.Subscription.Id);
 				}
 			} while (match == null);
@@ -126,7 +131,7 @@ namespace Matchmore.Tests
 			Assert.NotNull(match);
 		}
 
-		[Test, MaxTime(60000)]
+		[Test, MaxTime(20000)]
 		public void GetMatchByMultiChannelMonitor()
 		{
 			_monitor = _instance.SubscribeMatches(MatchChannel.Polling | MatchChannel.Websocket);

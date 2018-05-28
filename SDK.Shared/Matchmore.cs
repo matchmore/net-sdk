@@ -150,6 +150,10 @@ namespace Matchmore.SDK
 			};
 		}
 
+        /// <summary>
+        /// Setups the main device async. This device will be used for all calls as default unless providing other device id or instance
+        /// </summary>
+        /// <returns>The main device async.</returns>
 		public async Task<Device> SetupMainDeviceAsync()
 		{
 			if (MainDevice != null)
@@ -192,12 +196,6 @@ namespace Matchmore.SDK
 		{
 			_state.WipeData();
 		}
-
-		/// <summary>
-		/// Gets the devices. All device types included
-		/// </summary>
-		/// <value>The devices.</value>
-		public IEnumerable<Device> Devices => _state.Devices;
 
 		/// <summary>
 		/// Creates the device.
@@ -267,10 +265,8 @@ namespace Matchmore.SDK
 		/// <returns>The device communication async.</returns>
 		/// <param name="comUpdate">com update.</param>
 		/// <param name="deviceId">Device identifier.</param>
-		public async Task<Device> UpdateDeviceCommunicationAsync(ICommunicationUpdate comUpdate, string deviceId = null)
-		{
-			return await UpdateDeviceAsync(comUpdate.AsDeviceUpdate(), deviceId).ConfigureAwait(false);
-		}
+		public async Task<Device> UpdateDeviceCommunicationAsync(IMatchChannelUpdate comUpdate, string deviceId = null)
+		=> await UpdateDeviceAsync(comUpdate.AsDeviceUpdate(), deviceId).ConfigureAwait(false);
 
 		/// <summary>
 		/// Updates the device.
@@ -294,6 +290,11 @@ namespace Matchmore.SDK
 			return updatedDevice;
 		}
 
+        /// <summary>
+        /// Deletes the device async.
+        /// </summary>
+        /// <returns>The device async.</returns>
+        /// <param name="deviceId">Device identifier.</param>
 		public async Task DeleteDeviceAsync(string deviceId)
 		{
 			var (device, isMain) = FindDevice(deviceId);
@@ -341,9 +342,7 @@ namespace Matchmore.SDK
 		public async Task<Subscription> CreateSubscriptionAsync(Subscription sub, string deviceId, bool ignorePersistence = false)
 		{
 			if (string.IsNullOrEmpty(deviceId))
-			{
 				throw new ArgumentException("Device Id null or empty");
-			}
 
 			sub.WorldId = sub.WorldId ?? _worldId;
 			sub.DeviceId = sub.DeviceId ?? deviceId;
@@ -376,9 +375,7 @@ namespace Matchmore.SDK
 		public async Task<Publication> CreatePublicationAsync(Publication pub, string deviceId, bool ignorePersistence = false)
 		{
 			if (string.IsNullOrEmpty(deviceId))
-			{
 				throw new ArgumentException("Device Id null or empty");
-			}
 
 			pub.WorldId = pub.WorldId ?? _worldId;
 			pub.DeviceId = pub.DeviceId ?? deviceId;
@@ -410,13 +407,21 @@ namespace Matchmore.SDK
 		public async Task UpdateLocationAsync(Location location, string deviceId)
 		{
 			if (string.IsNullOrEmpty(deviceId))
-			{
 				throw new ArgumentException("Device Id null or empty");
-			}
 
 			await _client.CreateLocationAsync(deviceId, location).ConfigureAwait(false);
 		}
 
+        /// <summary>
+        /// Gets the match async.
+        /// </summary>
+        /// <returns>The match async.</returns>
+        /// <param name="matchId">Match identifier.</param>
+        /// <param name="device">Device.</param>
+		public async Task<Match> GetMatchAsync(MatchId matchId, Device device = null){
+			var usedDevice = device ?? _state.MainDevice;
+			return await _client.GetMatchAsync(usedDevice.Id, matchId.ToString()).ConfigureAwait(false);
+		}
 
 		/// <summary>
 		/// Gets the matches.
@@ -437,9 +442,7 @@ namespace Matchmore.SDK
 		public async Task<List<Match>> GetMatchesAsync(string deviceId)
 		{
 			if (string.IsNullOrEmpty(deviceId))
-			{
 				throw new ArgumentException("Device Id null or empty");
-			}
 
 			return await _client.GetMatchesAsync(deviceId).ConfigureAwait(false);
 		}
@@ -453,9 +456,7 @@ namespace Matchmore.SDK
 		public IMatchMonitor SubscribeMatches(MatchChannel channel, string deviceId)
 		{
 			if (string.IsNullOrEmpty(deviceId))
-			{
 				throw new ArgumentException("Device Id null or empty");
-			}
 
 			return SubscribeMatches(channel, FindDevice(deviceId).device);
 		}
@@ -468,15 +469,15 @@ namespace Matchmore.SDK
 		/// <param name="device">Device, if null will default to main device</param>
 		public IMatchMonitor SubscribeMatches(MatchChannel channel, Device device = null)
 		{
-			var deviceToSubscribe = device == null ? _state.MainDevice : device;
+			var deviceToSubscribe = device ?? _state.MainDevice;
 
 			var monitors = new List<IMatchMonitor>();
 
 			if (channel.HasFlag(MatchChannel.Polling))
-				monitors.Add(new PollingMatchMonitor(_client, deviceToSubscribe));
+				monitors.Add(new PollingMatchMonitor(this, deviceToSubscribe));
 
 			if (channel.HasFlag(MatchChannel.Websocket))
-				monitors.Add(new WebsocketMatchMonitor(_client, deviceToSubscribe, _worldId));
+				monitors.Add(new WebsocketMatchMonitor(this, deviceToSubscribe, _worldId));
 
 			if (channel.HasFlag(MatchChannel.APNS))
 			{
@@ -542,6 +543,12 @@ namespace Matchmore.SDK
 
 			return (_state.Devices.FirstOrDefault(pin => pin.Id == deviceId), false);
 		}
+
+        /// <summary>
+        /// Gets the devices. All device types included
+        /// </summary>
+        /// <value>The devices.</value>
+        public IEnumerable<Device> Devices => _state.Devices;
 
 		/// <summary>
 		/// Gets the active subscriptions.
