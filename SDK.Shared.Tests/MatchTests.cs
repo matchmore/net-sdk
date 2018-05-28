@@ -47,6 +47,7 @@ namespace Matchmore.Tests
 		public void GetMatchByPollingMonitor()
 		{
 			_monitor = _instance.SubscribeMatches(MatchChannel.Polling);
+			Assert.IsInstanceOfType(typeof(PollingMatchMonitor), _monitor);
 			RunSync(_monitor.Start);
 			List<Match> matches = null;
 			_monitor.MatchReceived += (object sender, MatchReceivedEventArgs e) => matches = e.Matches;
@@ -103,11 +104,11 @@ namespace Matchmore.Tests
         }
 
 
-		[Test, MaxTime(60000)]
-		[Ignore("Websocket broken")]
+		[Test, MaxTime(20000)]
 		public void GetMatchByWebsocketMonitor()
 		{
 			_monitor = _instance.SubscribeMatches(MatchChannel.Websocket);
+			Assert.IsInstanceOfType(typeof(WebsocketMatchMonitor), _monitor);
 			RunSync(_monitor.Start);
 			List<Match> matches = null;
 			_monitor.MatchReceived += (object sender, MatchReceivedEventArgs e) => matches = e.Matches;
@@ -129,6 +130,7 @@ namespace Matchmore.Tests
 		public void GetMatchByMultiChannelMonitor()
 		{
 			_monitor = _instance.SubscribeMatches(MatchChannel.Polling | MatchChannel.Websocket);
+			Assert.IsInstanceOfType(typeof(MultiChannelMatchMonitor), _monitor);
 			RunSync(_monitor.Start);
 			List<Match> matches = null;
 			_monitor.MatchReceived += (object sender, MatchReceivedEventArgs e) => matches = e.Matches;

@@ -8,7 +8,7 @@ namespace Matchmore.SDK.Xamarin.Shared
     {
         public string ApiKey { get; set; }
         public string Environment { get; set; }
-        public bool UseSecuredCommunication { get; set; }
+        public bool UseSSL { get; set; }
         public int? ServicePort { get; set; }
         public IStateRepository StateManager { get; set; }
         public IDeviceInfoProvider DeviceInfoProvider { get; set; }

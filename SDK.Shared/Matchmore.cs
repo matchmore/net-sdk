@@ -7,6 +7,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
 using System.Linq;
+using Matchmore.SDK.Communication;
 
 namespace Matchmore.SDK
 {
@@ -18,9 +19,9 @@ namespace Matchmore.SDK
 		private ApiClient _client;
 		private readonly IStateRepository _state;
 		private readonly IDeviceInfoProvider _deviceInfoProvider;
-		private string _environment;
+		private readonly string _environment;
 		private string _apiKey;
-		private bool _secured;
+		private bool _useSSL;
 		private int? _servicePort;
 		private Dictionary<string, IMatchMonitor> _monitors = new Dictionary<string, IMatchMonitor>();
 		private List<EventHandler<MatchReceivedEventArgs>> _eventHandlers = new List<EventHandler<MatchReceivedEventArgs>>();
@@ -76,13 +77,13 @@ namespace Matchmore.SDK
 			{
 				if (_environment != null)
 				{
-					var protocol = _secured ? "https" : "http";
+					var protocol = _useSSL ? "https" : "http";
 					var port = _servicePort == null ? "" : ":" + _servicePort;
 					return String.Format("{2}://{0}{3}/{1}", _environment, API_VERSION, protocol, port);
 				}
 				else
 				{
-					var protocol = _secured ? "https" : "http";
+					var protocol = _useSSL ? "https" : "http";
 					return String.Format("{0}://{1}/{2}", protocol, PRODUCTION, API_VERSION);
 				}
 			}
@@ -142,7 +143,7 @@ namespace Matchmore.SDK
 			_apiKey = config.ApiKey;
 			_servicePort = config.ServicePort;
 			_environment = config.Environment ?? PRODUCTION;
-			_secured = config.UseSecuredCommunication;
+			_useSSL = config.UseSSL;
 			_client = new ApiClient(config.HttpClient, _apiKey)
 			{
 				BaseUrl = ApiUrl
@@ -258,6 +259,17 @@ namespace Matchmore.SDK
 				_state.UpsertDevice(deviceInBackend);
 			}
 			return deviceInBackend;
+		}
+
+		/// <summary>
+		/// Updates the device token for APNS or FCM communication
+		/// </summary>
+		/// <returns>The device communication async.</returns>
+		/// <param name="comUpdate">com update.</param>
+		/// <param name="deviceId">Device identifier.</param>
+		public async Task<Device> UpdateDeviceCommunicationAsync(ICommunicationUpdate comUpdate, string deviceId = null)
+		{
+			return await UpdateDeviceAsync(comUpdate.AsDeviceUpdate(), deviceId).ConfigureAwait(false);
 		}
 
 		/// <summary>

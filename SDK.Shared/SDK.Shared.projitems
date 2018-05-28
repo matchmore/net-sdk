@@ -26,8 +26,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)IConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\LocationUpdatedEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GenericConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication\ICommunicationUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Communication\" />
   </ItemGroup>
 </Project>

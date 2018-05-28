@@ -14,7 +14,7 @@ namespace Matchmore.SDK
 
 		public string ApiKey { get; set; }
 		public string Environment { get; set; }
-		public bool UseSecuredCommunication { get; set; }
+		public bool UseSSL { get; set; }
 		public int? ServicePort { get; set; }
 		public IStateRepository StateManager { get; set; }
 		public IDeviceInfoProvider DeviceInfoProvider { get; set; }
@@ -46,7 +46,7 @@ namespace Matchmore.SDK
 #endif
 
 			config.ApiKey = apiKey;
-			config.UseSecuredCommunication = true;
+			config.UseSSL = true;
 
 			return config;
 		}

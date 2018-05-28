@@ -98,8 +98,8 @@ namespace Matchmore.SDK
 			var matches = await _client.GetMatchesAsync(_deviceToSubscribe.Id, _cancelationTokenSource.Token);
 			MatchReceived?.Invoke(this, new MatchReceivedEventArgs(_deviceToSubscribe, MatchChannel.Polling, matches));
 
-		}, 
-			                                  pollInterval: TimeSpan.FromSeconds(10),
+		},
+											  pollInterval: TimeSpan.FromSeconds(10),
 											  token: _cancelationTokenSource.Token,
 											  taskCreationOptions: TaskCreationOptions.LongRunning);
 			return Task.CompletedTask;
@@ -162,12 +162,17 @@ namespace Matchmore.SDK
 				if (result.MessageType != WebSocketMessageType.Text)
 					break;
 				var messageBytes = message.Skip(message.Offset).Take(result.Count).ToArray();
-				var matchId = Encoding.UTF8.GetString(messageBytes);
-				if (!IsMatchId(matchId))
+				var messageStr = Encoding.UTF8.GetString(messageBytes);
+				if (messageStr == "ping")
+					await _ws.SendAsync(StringToByte("pong"), WebSocketMessageType.Text, true, _cancelationTokenSource.Token).ConfigureAwait(false);
+				else
+				if (messageStr == "pong")
+					await _ws.SendAsync(StringToByte("ping"), WebSocketMessageType.Text, true, _cancelationTokenSource.Token).ConfigureAwait(false);
+				if (!IsMatchId(messageStr))
 					continue;
 				try
 				{
-					var match = await _client.GetMatchAsync(_deviceToSubscribe.Id, matchId).ConfigureAwait(false);
+					var match = await _client.GetMatchAsync(_deviceToSubscribe.Id, messageStr).ConfigureAwait(false);
 					MatchReceived?.Invoke(this, new MatchReceivedEventArgs(_deviceToSubscribe, MatchChannel.Websocket, new List<Match> { match }));
 				}
 				catch (Exception e)
@@ -177,6 +182,12 @@ namespace Matchmore.SDK
 
 			}
 			while (!result.EndOfMessage);
+		}
+
+		ArraySegment<byte> StringToByte(string str)
+		{
+			var byteMessage = Encoding.UTF8.GetBytes(str);
+			return new ArraySegment<byte>(byteMessage);
 		}
 
 		bool IsMatchId(string matchId) => Guid.TryParse(matchId, out Guid x);

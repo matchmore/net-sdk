@@ -21,7 +21,7 @@ namespace Matchmore.SDK
         /// Gets or sets a value indicating whether this <see cref="T:Matchmore.SDK.IConfig"/> use secured communication.
         /// </summary>
         /// <value><c>true</c> if use secured communication; otherwise, <c>false</c>.</value>
-        bool UseSecuredCommunication { get; set; }
+        bool UseSSL { get; set; }
 
         /// <summary>
         /// Gets or sets the service port.
