@@ -10,7 +10,7 @@ namespace Matchmore.Tests
 	[TestFixture]
 	public class MatchTests : TestBase
 	{
-       
+
 		private IMatchMonitor _monitor;
 
 		[SetUp]
@@ -30,6 +30,9 @@ namespace Matchmore.Tests
 		}
 
 		[Test, MaxTime(20000)]
+#if !(NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETSTANDARD2_0)
+		[Timeout(20000)]
+#endif
 		public void GetMatchByExplicitCall()
 		{
 			var testMatch = SetupTestMatch();
@@ -44,6 +47,9 @@ namespace Matchmore.Tests
 		}
 
 		[Test, MaxTime(20000)]
+#if !(NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETSTANDARD2_0)
+		[Timeout(20000)]
+#endif
 		public void GetMatchByPollingMonitor()
 		{
 			_monitor = _instance.SubscribeMatches(MatchChannel.Polling);
@@ -66,45 +72,51 @@ namespace Matchmore.Tests
 		}
 
 		[Test, MaxTime(20000)]
-        public void GetMatchForOtherDevice()
-        {
+#if !(NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETSTANDARD2_0)
+		[Timeout(20000)]
+#endif
+		public void GetMatchForOtherDevice()
+		{
 			var _beacon = new IBeaconDevice
-            {
-                Major = 13,
-                Minor = 3,
-                ProximityUUID = Guid.NewGuid().ToString(),
-                Name = "bacon"
-            };
+			{
+				Major = 13,
+				Minor = 3,
+				ProximityUUID = Guid.NewGuid().ToString(),
+				Name = "bacon"
+			};
 
 			var (beacon, _monitor) = RunSync(() => _instance.CreateDeviceAndStartListening(_beacon, MatchChannel.Polling));
 
 			RunSync(() => _instance.UpdateLocationAsync(new Location
-            {
-                Latitude = 54.414662,
-                Longitude = 18.625498
+			{
+				Latitude = 54.414662,
+				Longitude = 18.625498
 			}, beacon));
 
-            RunSync(_monitor.Start);
-            List<Match> matches = null;
-            _monitor.MatchReceived += (object sender, MatchReceivedEventArgs e) => matches = e.Matches;
+			RunSync(_monitor.Start);
+			List<Match> matches = null;
+			_monitor.MatchReceived += (object sender, MatchReceivedEventArgs e) => matches = e.Matches;
 
 			RunSync(() => _instance.CreateSubscriptionAsync(sub, beacon));
 
-            var testMatch = SetupTestMatch();
-            Match match = null;
-            do
-            {
-                if (matches != null)
-                {
+			var testMatch = SetupTestMatch();
+			Match match = null;
+			do
+			{
+				if (matches != null)
+				{
 					match = matches.Find(m => m.Subscription.DeviceId == beacon.Id);
-                }
-            } while (match == null);
+				}
+			} while (match == null);
 
-            Assert.NotNull(match);
-        }
+			Assert.NotNull(match);
+		}
 
 
 		[Test, MaxTime(20000)]
+#if !(NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETSTANDARD2_0)
+		[Timeout(20000)]
+#endif
 		public void GetMatchByWebsocketMonitor()
 		{
 			_monitor = _instance.SubscribeMatches(MatchChannel.Websocket);
@@ -117,14 +129,14 @@ namespace Matchmore.Tests
 			Match match = null;
 			do
 			{
-				RunSync(() =>_instance.UpdateLocationAsync(new Location
-                {
-                    Latitude = 54.414662,
-                    Longitude = 18.625498
-				}));
 				if (matches != null)
-				{               
+				{
 					match = matches.Find(m => m.Publication.Id == testMatch.Publication.Id && m.Subscription.Id == testMatch.Subscription.Id);
+				}
+				var ws = _monitor as WebsocketMatchMonitor;
+				if (ws.Disconnected)
+				{
+					throw ws.LastException;
 				}
 			} while (match == null);
 
@@ -132,6 +144,9 @@ namespace Matchmore.Tests
 		}
 
 		[Test, MaxTime(20000)]
+#if !(NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETSTANDARD2_0)
+		[Timeout(20000)]
+#endif
 		public void GetMatchByMultiChannelMonitor()
 		{
 			_monitor = _instance.SubscribeMatches(MatchChannel.Polling | MatchChannel.Websocket);

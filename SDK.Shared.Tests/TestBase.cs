@@ -58,6 +58,10 @@ namespace Matchmore.Tests
 				await Matchmore.SDK.Matchmore.Instance.SetupMainDeviceAsync().ConfigureAwait(false);
 			});
 			Task.WaitAll(r);
+			TaskScheduler.UnobservedTaskException += (s, e) => {
+
+			};
+
 		}
 
 		internal class TestMatchSetup
