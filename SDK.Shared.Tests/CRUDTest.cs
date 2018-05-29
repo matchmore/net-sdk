@@ -110,5 +110,12 @@ namespace Matchmore.Tests
             persistedSub = _instance.ActiveSubscriptions.FirstOrDefault(p => p.Id == _sub.Id);
             Assert.IsNull(persistedSub);
         }
+
+		[Test]
+        public void GetNotExistingMatchShouldReturnNull()
+        {
+			var match = RunSync(() => _instance.GetMatchAsync(MatchId.Make(Guid.NewGuid())));
+			Assert.IsNull(match);         
+        }
     }
 }

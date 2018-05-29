@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Linq;
 using Matchmore.SDK.Communication;
+using Matchmore.SDK.Events;
 
 namespace Matchmore.SDK
 {
@@ -26,9 +27,7 @@ namespace Matchmore.SDK
 		private Dictionary<string, IMatchMonitor> _monitors = new Dictionary<string, IMatchMonitor>();
 		private List<EventHandler<MatchReceivedEventArgs>> _eventHandlers = new List<EventHandler<MatchReceivedEventArgs>>();
 		private readonly IConfig _config;
-
-		public string _worldId { get; }
-
+		private string _worldId;
 		private ILocationService _locationService;
 
 		public event EventHandler<MatchReceivedEventArgs> MatchReceived
@@ -150,10 +149,10 @@ namespace Matchmore.SDK
 			};
 		}
 
-        /// <summary>
-        /// Setups the main device async. This device will be used for all calls as default unless providing other device id or instance
-        /// </summary>
-        /// <returns>The main device async.</returns>
+		/// <summary>
+		/// Setups the main device async. This device will be used for all calls as default unless providing other device id or instance
+		/// </summary>
+		/// <returns>The main device async.</returns>
 		public async Task<Device> SetupMainDeviceAsync()
 		{
 			if (MainDevice != null)
@@ -290,11 +289,11 @@ namespace Matchmore.SDK
 			return updatedDevice;
 		}
 
-        /// <summary>
-        /// Deletes the device async.
-        /// </summary>
-        /// <returns>The device async.</returns>
-        /// <param name="deviceId">Device identifier.</param>
+		/// <summary>
+		/// Deletes the device async.
+		/// </summary>
+		/// <returns>The device async.</returns>
+		/// <param name="deviceId">Device identifier.</param>
 		public async Task DeleteDeviceAsync(string deviceId)
 		{
 			var (device, isMain) = FindDevice(deviceId);
@@ -412,15 +411,23 @@ namespace Matchmore.SDK
 			await _client.CreateLocationAsync(deviceId, location).ConfigureAwait(false);
 		}
 
-        /// <summary>
-        /// Gets the match async.
-        /// </summary>
-        /// <returns>The match async.</returns>
-        /// <param name="matchId">Match identifier.</param>
-        /// <param name="device">Device.</param>
-		public async Task<Match> GetMatchAsync(MatchId matchId, Device device = null){
+		/// <summary>
+		/// Gets the match async.
+		/// </summary>
+		/// <returns>The match async.</returns>
+		/// <param name="matchId">Match identifier.</param>
+		/// <param name="device">Device.</param>
+		public async Task<Match> GetMatchAsync(MatchId matchId, Device device = null)
+		{
 			var usedDevice = device ?? _state.MainDevice;
-			return await _client.GetMatchAsync(usedDevice.Id, matchId.ToString()).ConfigureAwait(false);
+			try
+			{
+				return await _client.GetMatchAsync(usedDevice.Id, matchId.ToString()).ConfigureAwait(false);
+			}
+			catch (SwaggerException e) when (e.Message == "Match not found" || e.StatusCode == 404)
+			{
+				return null;
+			}         
 		}
 
 		/// <summary>
@@ -479,12 +486,7 @@ namespace Matchmore.SDK
 			if (channel.HasFlag(MatchChannel.Websocket))
 				monitors.Add(new WebsocketMatchMonitor(this, deviceToSubscribe, _worldId));
 
-			if (channel.HasFlag(MatchChannel.APNS))
-			{
-				//todo
-			}
-
-			if (channel.HasFlag(MatchChannel.FCM))
+			if (channel.HasFlag(MatchChannel.ThirdParty))
 			{
 				//todo
 			}
@@ -544,11 +546,11 @@ namespace Matchmore.SDK
 			return (_state.Devices.FirstOrDefault(pin => pin.Id == deviceId), false);
 		}
 
-        /// <summary>
-        /// Gets the devices. All device types included
-        /// </summary>
-        /// <value>The devices.</value>
-        public IEnumerable<Device> Devices => _state.Devices;
+		/// <summary>
+		/// Gets the devices. All device types included
+		/// </summary>
+		/// <value>The devices.</value>
+		public IEnumerable<Device> Devices => _state.Devices;
 
 		/// <summary>
 		/// Gets the active subscriptions.

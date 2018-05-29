@@ -7,7 +7,6 @@ namespace Matchmore.SDK
     {
 		Polling = 1, 
 		Websocket = 2,
-        APNS = 4,
-        FCM = 8
+        ThirdParty = 4
     }
 }

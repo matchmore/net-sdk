@@ -20,8 +20,7 @@ namespace Matchmore.Tests
             Topic = "Unity",
             Duration = 30,
             Range = 100,
-            Selector = "test = true and price <= 200",
-            Pushers = new List<string> { "ws" }
+            Selector = "test = true and price <= 200"
         };
 
 		protected Publication pub = new Publication
