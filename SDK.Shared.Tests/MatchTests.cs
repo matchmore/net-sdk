@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Matchmore.SDK;
+using Matchmore.SDK.Monitors;
 using static Matchmore.Tests.Utils;
+
 using NUnit.Framework;
 
 namespace Matchmore.Tests
@@ -113,9 +115,9 @@ namespace Matchmore.Tests
 		}
 
 
-		[Test, MaxTime(20000)]
+		[Test, MaxTime(40000)]
 #if !(NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETSTANDARD2_0)
-		[Timeout(20000)]
+		[Timeout(40000)]
 #endif
 		public void GetMatchByWebsocketMonitor()
 		{
@@ -129,23 +131,28 @@ namespace Matchmore.Tests
 			Match match = null;
 			do
 			{
+				RunSync(() => _instance.UpdateLocationAsync(new Location
+				{
+					Latitude = 54.414662,
+					Longitude = 18.625498
+				}));
 				if (matches != null)
 				{
 					match = matches.Find(m => m.Publication.Id == testMatch.Publication.Id && m.Subscription.Id == testMatch.Subscription.Id);
 				}
-				var ws = _monitor as WebsocketMatchMonitor;
-				if (ws.Disconnected)
-				{
-					throw ws.LastException;
-				}
+				//var ws = _monitor as WebsocketMatchMonitor;
+				//if (ws.Disconnected)
+				//{
+				//	throw ws.LastException;
+				//}
 			} while (match == null);
 
 			Assert.NotNull(match);
 		}
 
-		[Test, MaxTime(20000)]
+		[Test, MaxTime(40000)]
 #if !(NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETSTANDARD2_0)
-		[Timeout(20000)]
+		[Timeout(40000)]
 #endif
 		public void GetMatchByMultiChannelMonitor()
 		{
