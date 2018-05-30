@@ -6,9 +6,9 @@ namespace Matchmore.SDK.Monitors
 {
     public class PollingMatchMonitor : IMatchMonitor
     {
-        private Matchmore _client;
-        private Device _deviceToSubscribe;
-        private CancellationTokenSource _cancelationTokenSource;
+		readonly Matchmore _client;
+		readonly Device _deviceToSubscribe;
+        CancellationTokenSource _cancelationTokenSource;
 
         public PollingMatchMonitor(Matchmore client, Device deviceToSubscribe)
         {

@@ -12,11 +12,11 @@ namespace Matchmore.SDK.Monitors
 
     public class WebsocketMatchMonitor : IMatchMonitor
     {
-        private Matchmore _client;
-        private Device _deviceToSubscribe;
-        private readonly string _worldId;
-        private ClientWebSocket _ws;
-        private CancellationTokenSource _cancelationTokenSource;
+		readonly Matchmore _client;
+		readonly Device _deviceToSubscribe;
+        readonly string _worldId;
+        ClientWebSocket _ws;
+        CancellationTokenSource _cancelationTokenSource;
 
         public WebsocketMatchMonitor(Matchmore client, Device deviceToSubscribe, string worldId)
         {

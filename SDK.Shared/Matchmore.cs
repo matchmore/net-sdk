@@ -499,11 +499,6 @@ namespace Matchmore.SDK
 			if (channel.HasFlag(MatchChannel.Websocket))
 				monitors.Add(new WebsocketMatchMonitor(this, deviceToSubscribe, _worldId));
 
-			if (channel.HasFlag(MatchChannel.ThirdParty))
-			{
-				//todo
-			}
-
 			if (!monitors.Any())
 				throw new MatchmoreException("Invalid match monitors");
 
@@ -512,7 +507,28 @@ namespace Matchmore.SDK
 				monitor = monitors.Single();
 			else
 				monitor = new MultiChannelMatchMonitor(monitors.ToArray());
+			UpsertMonitor(deviceToSubscribe, monitor);
 
+			return monitor;
+		}
+
+        /// <summary>
+        /// Subscribes the matches with third party, like APNS or FPS
+        /// </summary>
+        /// <returns>A matchmonitor which also works as a provider for match ids</returns>
+        /// <param name="device">Device.</param>
+		public IMatchProviderMonitor SubscribeMatchesWithThirdParty(Device device = null)
+		{
+			var deviceToSubscribe = device ?? _state.MainDevice;
+			var monitor = new AuxiliaryMatchMonitor(this, deviceToSubscribe);
+
+			UpsertMonitor(deviceToSubscribe, monitor);
+
+			return monitor;
+		}
+
+		private void UpsertMonitor(Device deviceToSubscribe, IMatchMonitor monitor)
+		{
 			if (_monitors.ContainsKey(deviceToSubscribe.Id))
 			{
 				_monitors[deviceToSubscribe.Id].Stop();
@@ -525,8 +541,6 @@ namespace Matchmore.SDK
 			}
 
 			_monitors.Add(deviceToSubscribe.Id, monitor);
-
-			return monitor;
 		}
 
 

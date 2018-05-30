@@ -15,5 +15,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)TestBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LocationServiceTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CRUDTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThirdPartyMatchProviderTest.cs" />
   </ItemGroup>
 </Project>
