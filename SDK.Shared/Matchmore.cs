@@ -9,6 +9,7 @@ using System.Text;
 using System.Linq;
 using Matchmore.SDK.Communication;
 using Matchmore.SDK.Events;
+using Matchmore.SDK.Monitors;
 
 namespace Matchmore.SDK
 {
@@ -347,7 +348,7 @@ namespace Matchmore.SDK
 			sub.DeviceId = sub.DeviceId ?? deviceId;
 
 			var wsSet = sub.Pushers?.Contains("ws");
-			if(wsSet.GetValueOrDefault(true))
+			if (wsSet.GetValueOrDefault(true))
 			{
 				var defaultWsPusher = new List<string> { "ws" };
 				sub.Pushers = sub.Pushers == null ? defaultWsPusher : sub.Pushers.Concat(defaultWsPusher).ToList();
@@ -431,10 +432,11 @@ namespace Matchmore.SDK
 			{
 				return await _client.GetMatchAsync(usedDevice.Id, matchId.ToString()).ConfigureAwait(false);
 			}
+			
 			catch (SwaggerException e) when (e.Message == "Match not found" || e.StatusCode == 404)
 			{
 				return null;
-			}         
+			}
 		}
 
 		/// <summary>
@@ -467,21 +469,25 @@ namespace Matchmore.SDK
 		/// <returns>The matches.</returns>
 		/// <param name="channel">Channel.</param>
 		/// <param name="deviceId">Device identifier.</param>
-		public IMatchMonitor SubscribeMatches(MatchChannel channel, string deviceId)
+		public IMatchMonitor SubscribeMatches(string deviceId, MatchChannel channel = MatchChannel.Polling)
 		{
 			if (string.IsNullOrEmpty(deviceId))
 				throw new ArgumentException("Device Id null or empty");
 
-			return SubscribeMatches(channel, FindDevice(deviceId).device);
+			var d = FindDevice(deviceId).device;
+			if (d == null)
+				throw new InvalidOperationException("Device id unrecognized");
+
+			return SubscribeMatches(channel, d);
 		}
 
 		/// <summary>
 		/// Subscribes the matches.
 		/// </summary>
 		/// <returns>The matches.</returns>
-		/// <param name="channel">Channel.</param>
 		/// <param name="device">Device, if null will default to main device</param>
-		public IMatchMonitor SubscribeMatches(MatchChannel channel, Device device = null)
+		/// <param name="channel">Channel.</param>
+		public IMatchMonitor SubscribeMatches(MatchChannel channel = MatchChannel.Polling, Device device = null)
 		{
 			var deviceToSubscribe = device ?? _state.MainDevice;
 

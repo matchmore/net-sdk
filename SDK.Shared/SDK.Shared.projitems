@@ -11,7 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Client.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LocationProviders.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MatchMonitors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Matchmore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BaseClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\MatchReceivedEventArgs.cs" />
@@ -30,11 +29,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Communication\FCMTokenUpdate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Communication\APNSTokenUpdate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Monitors\IMatchMonitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Monitors\MultiChannelMatchMonitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Monitors\PollingMatchMonitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Monitors\WebsocketMatchMonitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)project.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Communication\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Monitors\" />
   </ItemGroup>
 </Project>

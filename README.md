@@ -49,8 +49,11 @@ var createdPub = await Matchmore.SDK.Matchmore.Instance.CreatePublicationAsync(p
 
 To receive matches, you need to create a monitor
 ```csharp
-var monitor = Matchmore.SDK.Matchmore.Instance.SubscribeMatches(MatchChannel.Polling);
-
+//default params of .SubscribeMatches() use your main device and Polling as a channel delivery mechanism
+var monitor = Matchmore.SDK.Matchmore.Instance.SubscribeMatches();
+monitor.MatchReceived += (object sender, MatchReceivedEventArgs e) => {
+    //handle your match
+};
 ```
 
 Start listening for main device matches changes.

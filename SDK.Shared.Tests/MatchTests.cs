@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Matchmore.SDK;
+using Matchmore.SDK.Monitors;
 using static Matchmore.Tests.Utils;
+
 using NUnit.Framework;
 
 namespace Matchmore.Tests
