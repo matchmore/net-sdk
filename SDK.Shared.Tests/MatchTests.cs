@@ -32,9 +32,7 @@ namespace Matchmore.Tests
 		}
 
 		[Test, MaxTime(20000)]
-#if !(NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETSTANDARD2_0)
 		[Timeout(20000)]
-#endif
 		public void GetMatchByExplicitCall()
 		{
 			var testMatch = SetupTestMatch();
@@ -49,13 +47,11 @@ namespace Matchmore.Tests
 		}
 
 		[Test, MaxTime(20000)]
-#if !(NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETSTANDARD2_0)
 		[Timeout(20000)]
-#endif
 		public void GetMatchByPollingMonitor()
 		{
 			_monitor = _instance.SubscribeMatches(MatchChannel.Polling);
-			Assert.IsInstanceOfType(typeof(PollingMatchMonitor), _monitor);
+			Assert.That(_monitor, Is.InstanceOf<PollingMatchMonitor>());
 			RunSync(_monitor.Start);
 			List<Match> matches = null;
 			_monitor.MatchReceived += (object sender, MatchReceivedEventArgs e) => matches = e.Matches;
@@ -74,9 +70,7 @@ namespace Matchmore.Tests
 		}
 
 		[Test, MaxTime(20000)]
-#if !(NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETSTANDARD2_0)
 		[Timeout(20000)]
-#endif
 		public void GetMatchForOtherDevice()
 		{
 			var _beacon = new IBeaconDevice
@@ -116,13 +110,11 @@ namespace Matchmore.Tests
 
 
 		[Test, MaxTime(40000)]
-#if !(NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETSTANDARD2_0)
-		[Timeout(40000)]
-#endif
+		[Timeout(20000)]
 		public void GetMatchByWebsocketMonitor()
 		{
 			_monitor = _instance.SubscribeMatches(MatchChannel.Websocket);
-			Assert.IsInstanceOfType(typeof(WebsocketMatchMonitor), _monitor);
+			Assert.That(_monitor, Is.InstanceOf<WebsocketMatchMonitor>());
 			RunSync(_monitor.Start);
 			List<Match> matches = null;
 			_monitor.MatchReceived += (object sender, MatchReceivedEventArgs e) => matches = e.Matches;
@@ -140,24 +132,17 @@ namespace Matchmore.Tests
 				{
 					match = matches.Find(m => m.Publication.Id == testMatch.Publication.Id && m.Subscription.Id == testMatch.Subscription.Id);
 				}
-				//var ws = _monitor as WebsocketMatchMonitor;
-				//if (ws.Disconnected)
-				//{
-				//	throw ws.LastException;
-				//}
 			} while (match == null);
 
 			Assert.NotNull(match);
 		}
 
 		[Test, MaxTime(40000)]
-#if !(NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2 || NETSTANDARD1_3 || NETSTANDARD1_4 || NETSTANDARD1_5 || NETSTANDARD1_6 || NETSTANDARD2_0)
-		[Timeout(40000)]
-#endif
+		[Timeout(20000)]
 		public void GetMatchByMultiChannelMonitor()
 		{
 			_monitor = _instance.SubscribeMatches(MatchChannel.Polling | MatchChannel.Websocket);
-			Assert.IsInstanceOfType(typeof(MultiChannelMatchMonitor), _monitor);
+			Assert.That(_monitor, Is.InstanceOf<MultiChannelMatchMonitor>());
 			RunSync(_monitor.Start);
 			List<Match> matches = null;
 			_monitor.MatchReceived += (object sender, MatchReceivedEventArgs e) => matches = e.Matches;

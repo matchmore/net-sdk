@@ -16,5 +16,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)LocationServiceTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CRUDTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThirdPartyMatchProviderTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TimeoutAttribute.cs" />
   </ItemGroup>
 </Project>

@@ -35,7 +35,7 @@ namespace Matchmore.SDK.Monitors
 
         public Task Stop()
         {
-            _cancelationTokenSource.Cancel();
+            _cancelationTokenSource?.Cancel();
             return Task.CompletedTask;
         }
     }

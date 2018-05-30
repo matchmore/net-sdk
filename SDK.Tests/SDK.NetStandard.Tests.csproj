@@ -12,6 +12,8 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SDK.NetStandard\SDK.NetStandard.csproj" />
+  </ItemGroup>
   <Import Project="..\SDK.Shared.Tests\SDK.Shared.Tests.projitems" Label="Shared" Condition="Exists('..\SDK.Shared.Tests\SDK.Shared.Tests.projitems')" />
-  <Import Project="..\SDK.Shared\SDK.Shared.projitems" Label="Shared" Condition="Exists('..\SDK.Shared\SDK.Shared.projitems')" />
 </Project>

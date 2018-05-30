@@ -4,8 +4,6 @@
 
 ## Usage
 
-Please refer to documentation "tutorial" to get a full explanation on this example:
-
 Setup application API key and world, get it for free from [http://matchmore.io/](http://matchmore.io/).
 ```csharp
 async Task SetupMatchmore()
@@ -130,6 +128,16 @@ Additional info you might find useful
 ## Documentation
 
 See the [http://matchmore.io/documentation/api](http://matchmore.io/documentation/api) or consult our website for further information [http://matchmore.io/](http://matchmore.io/)
+
+## Development
+
+To run tests for .NET Standard use `dotnet` command line utility
+```
+dotnet test SDK.Tests/SDK.NetStandard.Tests.csproj
+```
+
+Other devices can be run from visual studio
+
 
 ## Authors
 

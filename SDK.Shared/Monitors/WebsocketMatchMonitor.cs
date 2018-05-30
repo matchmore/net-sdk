@@ -96,7 +96,7 @@ namespace Matchmore.SDK.Monitors
 
         public async Task Stop()
         {
-            _cancelationTokenSource.Cancel();
+            _cancelationTokenSource?.Cancel();
             await _ws.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None).ConfigureAwait(false);
         }
     }
