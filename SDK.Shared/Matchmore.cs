@@ -51,8 +51,16 @@ namespace Matchmore.SDK
 			}
 		}
 
+        /// <summary>
+        /// Gets the monitors.
+        /// </summary>
+        /// <value>The monitors.</value>
 		public Dictionary<string, IMatchMonitor> Monitors => _monitors;
 
+        /// <summary>
+        /// Gets the main device.
+        /// </summary>
+        /// <value>The main device.</value>
 		public Device MainDevice
 		{
 			get
@@ -66,6 +74,12 @@ namespace Matchmore.SDK
 				_state.SetMainDevice(value);
 			}
 		}
+
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="T:Matchmore.SDK.Matchmore"/> main device set.
+        /// </summary>
+        /// <value><c>true</c> if main device set; otherwise, <c>false</c>.</value>
+        public bool MainDeviceSet => MainDevice != null;
 
 		/// <summary>
 		/// Gets the API URL.
@@ -167,6 +181,9 @@ namespace Matchmore.SDK
 		/// </summary>
 		public void StartLocationService()
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main device not set");
+            
 			EventHandler<Events.LocationUpdatedEventArgs> onLocationUpdated = async (object sender, Events.LocationUpdatedEventArgs e) =>
 			{
 				var location = e.Location;
@@ -205,6 +222,9 @@ namespace Matchmore.SDK
 		/// <param name="makeMain">If set to <c>true</c> makes the device main. Not recommended</param>
 		public async Task<Device> CreateDeviceAsync(Device device, bool makeMain = false)
 		{
+            if (!MainDeviceSet && !makeMain)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			if (_state == null)
 			{
 				throw new InvalidOperationException("Persistence wasn't setup!!!");
@@ -276,6 +296,9 @@ namespace Matchmore.SDK
 		/// <param name="deviceId">Device identifier.</param>
 		public async Task<Device> UpdateDeviceAsync(DeviceUpdate deviceUpdate, string deviceId = null)
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			var _deviceId = deviceId ?? MainDevice.Id;
 			var updatedDevice = await _client.UpdateDeviceAsync(deviceId, deviceUpdate);
 			var (device, isMain) = FindDevice(updatedDevice.Id);
@@ -297,6 +320,9 @@ namespace Matchmore.SDK
 		/// <param name="deviceId">Device identifier.</param>
 		public async Task DeleteDeviceAsync(string deviceId)
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			var (device, isMain) = FindDevice(deviceId);
 			if (isMain)
 				throw new MatchmoreException("You cannot delete your main device");
@@ -314,6 +340,9 @@ namespace Matchmore.SDK
 		/// <param name="channel">Channel.</param>
 		public async Task<(Device, IMatchMonitor)> CreateDeviceAndStartListening(Device device, MatchChannel channel)
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			var createdDevice = await CreateDeviceAsync(device).ConfigureAwait(false);
 			var monitor = SubscribeMatches(channel, createdDevice);
 
@@ -327,20 +356,23 @@ namespace Matchmore.SDK
 		/// <param name="sub">Sub.</param>
 		/// <param name="device">Device, if null will default to main device</param>
 		public async Task<Subscription> CreateSubscriptionAsync(Subscription sub, Device device = null)
-		{
-			var usedDevice = device ?? _state.MainDevice;
-			return await CreateSubscriptionAsync(sub, usedDevice.Id).ConfigureAwait(false);
-		}
+        {
+            Device usedDevice = DeviceOrMain(device);
+            return await CreateSubscriptionAsync(sub, usedDevice.Id).ConfigureAwait(false);
+        }
 
-		/// <summary>
-		/// Creates the subscription.
-		/// </summary
-		/// <returns>The subscription.</returns>
-		/// <param name="sub">Sub.</param>
-		/// <param name="deviceId">Device identifier.</param>
-		/// <param name="ignorePersistence">If set to <c>true</c> ignore persistence.</param>
-		public async Task<Subscription> CreateSubscriptionAsync(Subscription sub, string deviceId, bool ignorePersistence = false)
+        /// <summary>
+        /// Creates the subscription.
+        /// </summary
+        /// <returns>The subscription.</returns>
+        /// <param name="sub">Sub.</param>
+        /// <param name="deviceId">Device identifier.</param>
+        /// <param name="ignorePersistence">If set to <c>true</c> ignore persistence.</param>
+        public async Task<Subscription> CreateSubscriptionAsync(Subscription sub, string deviceId, bool ignorePersistence = false)
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			if (string.IsNullOrEmpty(deviceId))
 				throw new ArgumentException("Device Id null or empty");
 
@@ -368,7 +400,7 @@ namespace Matchmore.SDK
 		/// <param name="device">Device, if null will default to main device</param>
 		public async Task<Publication> CreatePublicationAsync(Publication pub, Device device = null)
 		{
-			var usedDevice = device ?? _state.MainDevice;
+            var usedDevice = DeviceOrMain(device);
 			return await CreatePublicationAsync(pub, usedDevice.Id).ConfigureAwait(false);
 		}
 
@@ -401,6 +433,9 @@ namespace Matchmore.SDK
 		/// <param name="device">Device, if null will default to main device</param>
 		public async Task UpdateLocationAsync(Location location, Device device = null)
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			var usedDevice = device ?? _state.MainDevice;
 			await UpdateLocationAsync(location, usedDevice.Id).ConfigureAwait(false);
 		}
@@ -413,6 +448,9 @@ namespace Matchmore.SDK
 		/// <param name="deviceId">Device identifier.</param>
 		public async Task UpdateLocationAsync(Location location, string deviceId)
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			if (string.IsNullOrEmpty(deviceId))
 				throw new ArgumentException("Device Id null or empty");
 
@@ -427,6 +465,9 @@ namespace Matchmore.SDK
 		/// <param name="device">Device.</param>
 		public async Task<Match> GetMatchAsync(MatchId matchId, Device device = null)
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			var usedDevice = device ?? _state.MainDevice;
 			try
 			{
@@ -446,6 +487,9 @@ namespace Matchmore.SDK
 		/// <param name="device">Device, if null will default to main device</param>
 		public async Task<List<Match>> GetMatchesAsync(Device device = null)
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			var usedDevice = device ?? _state.MainDevice;
 			return await GetMatchesAsync(usedDevice.Id).ConfigureAwait(false);
 		}
@@ -457,6 +501,9 @@ namespace Matchmore.SDK
 		/// <param name="deviceId">Device identifier.</param>
 		public async Task<List<Match>> GetMatchesAsync(string deviceId)
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			if (string.IsNullOrEmpty(deviceId))
 				throw new ArgumentException("Device Id null or empty");
 
@@ -471,6 +518,9 @@ namespace Matchmore.SDK
 		/// <param name="deviceId">Device identifier.</param>
 		public IMatchMonitor SubscribeMatches(string deviceId, MatchChannel channel = MatchChannel.Polling)
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			if (string.IsNullOrEmpty(deviceId))
 				throw new ArgumentException("Device Id null or empty");
 
@@ -489,6 +539,9 @@ namespace Matchmore.SDK
 		/// <param name="channel">Channel.</param>
 		public IMatchMonitor SubscribeMatches(MatchChannel channel = MatchChannel.Polling, Device device = null)
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			var deviceToSubscribe = device ?? _state.MainDevice;
 
 			var monitors = new List<IMatchMonitor>();
@@ -519,6 +572,9 @@ namespace Matchmore.SDK
         /// <param name="device">Device.</param>
 		public IMatchProviderMonitor SubscribeMatchesWithThirdParty(Device device = null)
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			var deviceToSubscribe = device ?? _state.MainDevice;
 			var monitor = new AuxiliaryMatchMonitor(this, deviceToSubscribe);
 
@@ -546,6 +602,9 @@ namespace Matchmore.SDK
 
 		public async Task DeletePublicationAsync(string pubId, string deviceId = null)
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			var _deviceId = deviceId ?? MainDevice.Id;
 
 			await _client.DeletePublicationAsync(_deviceId, pubId);
@@ -556,6 +615,9 @@ namespace Matchmore.SDK
 
 		public async Task DeleteSubscriptionAsync(string subId, string deviceId = null)
 		{
+            if (!MainDeviceSet)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
 			var _deviceId = deviceId ?? MainDevice.Id;
 
 			await _client.DeleteSubscriptionAsync(_deviceId, subId);
@@ -564,6 +626,16 @@ namespace Matchmore.SDK
 				_state.RemoveSubscription(ac);
 		}
 
+
+        Device DeviceOrMain(Device device)
+        {
+            
+            var d = device ?? _state.MainDevice;
+            if (d == null)
+                throw new MatchmoreException("Main nor optional device is not ready");
+
+            return d;
+        }
 
 		(Device device, bool isMain) FindDevice(string deviceId)
 		{
