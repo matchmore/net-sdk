@@ -2,6 +2,11 @@
 
 `Matchmore` is a contextualized publish/subscribe model which can be used to model any geolocated or proximity based mobile applications. Save time and make development easier by using our SDK.
 
+## Installation
+
+You can install the SDK directly from Nuget
+https://www.nuget.org/packages/Matchmore.SDK/
+
 ## Usage
 
 Setup application API key and world, get it for free from [http://matchmore.io/](http://matchmore.io/).
