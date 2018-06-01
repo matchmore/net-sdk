@@ -25,7 +25,6 @@ namespace Matchmore.SDK
             return pub.SecondsRemaining() >= 0;
         }
 
-
         public static double? SecondsRemaining(this Subscription sub)
         {
             var miliDelta = TimeUtil.Now() - sub.CreatedAt;

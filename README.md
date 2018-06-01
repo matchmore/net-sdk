@@ -14,7 +14,11 @@ async Task SetupMatchmore()
 
 Create first device, publication and subscription. Please note that we're not caring about errors right now.
 ```csharp
+//call this before you can operate on default operations
 await Matchmore.SDK.Matchmore.Instance.SetupMainDeviceAsync();
+
+Matchmore.SDK.Matchmore.Instance.StartLocationService();
+
 //you can access the device later by calling Matchmore.SDK.Matchmore.Instance.MainDevice
 var sub = new Subscription
         {
