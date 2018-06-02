@@ -144,6 +144,9 @@ namespace Matchmore.SDK
 
 		public Matchmore(IConfig config)
 		{
+            if (!IsValidApiKey(config.ApiKey))
+                throw new MatchmoreException("Malformed api key");
+            
 			_state = config.StateManager;
 			_deviceInfoProvider = config.DeviceInfoProvider;
 			_config = config;
@@ -164,11 +167,11 @@ namespace Matchmore.SDK
 			};
 		}
 
-		/// <summary>
-		/// Setups the main device async. This device will be used for all calls as default unless providing other device id or instance
-		/// </summary>
-		/// <returns>The main device async.</returns>
-		public async Task<Device> SetupMainDeviceAsync()
+        /// <summary>
+        /// Setups the main device async. This device will be used for all calls as default unless providing other device id or instance
+        /// </summary>
+        /// <returns>The main device async.</returns>
+        public async Task<Device> SetupMainDeviceAsync()
 		{
 			if (MainDevice != null)
 				return MainDevice;
@@ -200,10 +203,7 @@ namespace Matchmore.SDK
 				_locationService.LocationUpdated -= onLocationUpdated;
 				_locationService.Stop();
 			}
-
-			_locationService = _config.LocationService;
-
-
+            _locationService = _config.LocationService ?? throw new MatchmoreException("No location service implementation provider, please provide a ILocationService implementation via the config class");
 
 			_locationService.LocationUpdated += onLocationUpdated;
 			_locationService.Start();
@@ -537,7 +537,7 @@ namespace Matchmore.SDK
 		/// <returns>The matches.</returns>
 		/// <param name="device">Device, if null will default to main device</param>
 		/// <param name="channel">Channel.</param>
-		public IMatchMonitor SubscribeMatches(MatchChannel channel = MatchChannel.Polling, Device device = null)
+        public IMatchMonitor SubscribeMatches(MatchChannel channel = MatchChannel.Polling | MatchChannel.Websocket, Device device = null)
 		{
             if (!MainDeviceSet)
                 throw new MatchmoreException("Main nor optional device is not ready");
@@ -561,7 +561,7 @@ namespace Matchmore.SDK
 			else
 				monitor = new MultiChannelMatchMonitor(monitors.ToArray());
 			UpsertMonitor(deviceToSubscribe, monitor);
-
+            monitor.Start();
 			return monitor;
 		}
 
@@ -678,15 +678,21 @@ namespace Matchmore.SDK
 			}
 
 			_monitors.Clear();
-			if (_locationService != null)
-				_locationService.Stop();
-
+            _locationService?.Stop();
 		}
 
 		class ApiKeyObject
 		{
 			public string Sub { get; set; }
 		}
+
+
+        private static bool IsValidApiKey(string apiKey)
+        {
+            var jwtLike = apiKey.Split('.').Length == 3;
+            return jwtLike;
+        }
+
 
 		public static string ExtractWorldId(string apiKey)
 		{

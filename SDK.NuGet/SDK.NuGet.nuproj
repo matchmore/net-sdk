@@ -7,7 +7,7 @@
     <ProjectGuid>{E810279C-1B58-467C-AEF9-001CF9B72484}</ProjectGuid>
     <Description>`Matchmore` is a contextualized publish/subscribe model which can be used to model any geolocated or proximity based mobile applications. Save time and make development easier by using our SDK.</Description>
     <PackageId>Matchmore.SDK</PackageId>
-    <PackageVersion>0.7.5</PackageVersion>
+    <PackageVersion>0.7.6</PackageVersion>
     <Authors>matchmore</Authors>
     <DevelopmentDependency>false</DevelopmentDependency>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
