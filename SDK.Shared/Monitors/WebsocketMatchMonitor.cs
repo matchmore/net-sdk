@@ -42,7 +42,18 @@ namespace Matchmore.SDK.Monitors
             {
                 while (true)
                 {
-                    await ReadMessage();
+                    try
+                    {
+                        await ReadMessage();
+                    }
+                    catch (WebSocketException)
+                    {
+                        await Task.Delay(2000);
+                        _cancelationTokenSource.Cancel();
+                        await Start();
+
+                    }
+
                 }
             }, _cancelationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
