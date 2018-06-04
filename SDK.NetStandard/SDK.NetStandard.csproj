@@ -2,12 +2,24 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackOnBuild>true</PackOnBuild>
+    <PackageId>Matchmore.SDK</PackageId>
+    <PackageVersion>0.7.6</PackageVersion>
+    <Authors>matchmore</Authors>
+    <Title>Matchmore.SDK</Title>
+    <Summary>
+`Matchmore` is a contextualized publish/subscribe model which can be used to model any geolocated or proximity based mobile applications. Save time and make development easier by using our SDK.</Summary>
+    <PackageProjectUrl>https://matchmore.io/</PackageProjectUrl>
+    <Owners>matchmore</Owners>
+    <PackageIconUrl>https://matchmore.com/static/img/logo/logo_marina_trans.png</PackageIconUrl>
+    <Description>`Matchmore` is a contextualized publish/subscribe model which can be used to model any geolocated or proximity based mobile applications. Save time and make development easier by using our SDK.</Description>
   </PropertyGroup>
 
   <Import Project="..\SDK.Shared\SDK.Shared.projitems" Label="Shared" />
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" />
   </ItemGroup>
 
 </Project>

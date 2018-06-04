@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E810279C-1B58-467C-AEF9-001CF9B72484}</ProjectGuid>
     <Description>`Matchmore` is a contextualized publish/subscribe model which can be used to model any geolocated or proximity based mobile applications. Save time and make development easier by using our SDK.</Description>
-    <PackageId>Matchmore.SDK</PackageId>
+    <PackageId>Matchmore.SDK.Xamarin</PackageId>
     <PackageVersion>0.7.6</PackageVersion>
     <Authors>matchmore</Authors>
     <DevelopmentDependency>false</DevelopmentDependency>
@@ -41,10 +41,6 @@
     <ProjectReference Include="..\SDK.iOS\SDK.iOS.csproj">
       <Project>{BEBA88A3-BC31-4A94-9896-FC2EFE5EB709}</Project>
       <Name>SDK.iOS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SDK.NetStandard\SDK.NetStandard.csproj">
-      <Project>{88E6B161-B03A-4403-B729-E7B5A7A0E499}</Project>
-      <Name>SDK.NetStandard</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
