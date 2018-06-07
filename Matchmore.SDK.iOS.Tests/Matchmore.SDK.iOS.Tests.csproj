@@ -112,12 +112,12 @@
     <Compile Include="UnitTestAppDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SDK.iOS\SDK.iOS.csproj">
+    <ProjectReference Include="..\Matchmore.SDK.iOS\Matchmore.SDK.iOS.csproj">
       <Project>{BEBA88A3-BC31-4A94-9896-FC2EFE5EB709}</Project>
-      <Name>SDK.iOS</Name>
+      <Name>Matchmore.SDK.iOS</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\SDK.Shared.Tests\SDK.Shared.Tests.projitems" Label="Shared" Condition="Exists('..\SDK.Shared.Tests\SDK.Shared.Tests.projitems')" />
+  <Import Project="..\Matchmore.SDK.Shared.Tests\Matchmore.SDK.Shared.Tests.projitems" Label="Shared" Condition="Exists('..\Matchmore.SDK.Shared.Tests\Matchmore.SDK.Shared.Tests.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.3.0.0.482510\build\netstandard2.0\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.3.0.0.482510\build\netstandard2.0\Xamarin.Forms.targets')" />
 </Project>

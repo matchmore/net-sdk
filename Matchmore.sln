@@ -3,31 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSwagGenerator", "NSwagGenerator\NSwagGenerator.csproj", "{BC0EC2DA-A3C8-4F95-9C03-5B6D8FFCCA73}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SDK.Shared", "SDK.Shared\SDK.Shared.shproj", "{6C0240FB-EED6-4048-B2C3-038532EB2F36}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Matchmore.SDK.Shared", "Matchmore.SDK.Shared\Matchmore.SDK.Shared.shproj", "{6C0240FB-EED6-4048-B2C3-038532EB2F36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDK.Android", "SDK.Android\SDK.Android.csproj", "{7B437765-F453-4382-9124-BD820D38B2E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmore.SDK.Android", "Matchmore.SDK.Android\Matchmore.SDK.Android.csproj", "{7B437765-F453-4382-9124-BD820D38B2E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDK.iOS", "SDK.iOS\SDK.iOS.csproj", "{BEBA88A3-BC31-4A94-9896-FC2EFE5EB709}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmore.SDK.iOS", "Matchmore.SDK.iOS\Matchmore.SDK.iOS.csproj", "{BEBA88A3-BC31-4A94-9896-FC2EFE5EB709}"
 EndProject
-Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "SDK.NuGet", "SDK.NuGet\SDK.NuGet.nuproj", "{E810279C-1B58-467C-AEF9-001CF9B72484}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "Matchmore.SDK.NuGet", "Matchmore.SDK.NuGet\Matchmore.SDK.NuGet.nuproj", "{E810279C-1B58-467C-AEF9-001CF9B72484}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A852FE01-61FD-447C-A22A-152D643B1787}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDK.Androind.Tests", "SDK.Androind.Tests\SDK.Androind.Tests.csproj", "{428B6BC8-7FBF-42FD-BE4F-0838FF9B821F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmore.SDK.Androind.Tests", "Matchmore.SDK.Androind.Tests\Matchmore.SDK.Androind.Tests.csproj", "{428B6BC8-7FBF-42FD-BE4F-0838FF9B821F}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SDK.Shared.Tests", "SDK.Shared.Tests\SDK.Shared.Tests.shproj", "{EFE94C7E-2507-449D-BF80-C94B0947FA45}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Matchmore.SDK.Shared.Tests", "Matchmore.SDK.Shared.Tests\Matchmore.SDK.Shared.Tests.shproj", "{EFE94C7E-2507-449D-BF80-C94B0947FA45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDK.iOS.Tests", "SDK.iOS.Tests\SDK.iOS.Tests.csproj", "{C8526C68-0473-4DF0-9099-59409CCAFBF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmore.SDK.iOS.Tests", "Matchmore.SDK.iOS.Tests\Matchmore.SDK.iOS.Tests.csproj", "{C8526C68-0473-4DF0-9099-59409CCAFBF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDK.NetStandard.Tests", "SDK.Tests\SDK.NetStandard.Tests.csproj", "{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Matchmore.SDK.Xamarin.Shared", "Matchmore.SDK.Xamarin.Shared\Matchmore.SDK.Xamarin.Shared.shproj", "{8C498710-46A8-4FB0-BFD3-51AFF383CB41}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SDK.Xamarin.Shared", "SDK.Xamarin.Shared\SDK.Xamarin.Shared.shproj", "{8C498710-46A8-4FB0-BFD3-51AFF383CB41}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDK.NetStandard", "SDK.NetStandard\SDK.NetStandard.csproj", "{88E6B161-B03A-4403-B729-E7B5A7A0E499}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmore.SDK.NetStandard", "Matchmore.SDK.NetStandard\Matchmore.SDK.NetStandard.csproj", "{88E6B161-B03A-4403-B729-E7B5A7A0E499}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{72FF8B5F-41E7-4337-B4A8-49B13870D18F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleExample", "ConsoleExample\ConsoleExample.csproj", "{FD6B628B-424C-4C7E-8DC9-79A4B72D4BCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmore.SDK.NetStandard.Tests", "Matchmore.SDK.NetStandard.Tests\Matchmore.SDK.NetStandard.Tests.csproj", "{44BA3336-1888-4D43-BFF4-7AD336CC1760}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,18 +111,6 @@ Global
 		{C8526C68-0473-4DF0-9099-59409CCAFBF4}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{C8526C68-0473-4DF0-9099-59409CCAFBF4}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{C8526C68-0473-4DF0-9099-59409CCAFBF4}.Debug|iPhone.Build.0 = Debug|iPhone
-		{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}.Release|iPhone.Build.0 = Release|Any CPU
-		{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{88E6B161-B03A-4403-B729-E7B5A7A0E499}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{88E6B161-B03A-4403-B729-E7B5A7A0E499}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88E6B161-B03A-4403-B729-E7B5A7A0E499}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -147,12 +135,24 @@ Global
 		{FD6B628B-424C-4C7E-8DC9-79A4B72D4BCE}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{FD6B628B-424C-4C7E-8DC9-79A4B72D4BCE}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{FD6B628B-424C-4C7E-8DC9-79A4B72D4BCE}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{44BA3336-1888-4D43-BFF4-7AD336CC1760}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44BA3336-1888-4D43-BFF4-7AD336CC1760}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44BA3336-1888-4D43-BFF4-7AD336CC1760}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44BA3336-1888-4D43-BFF4-7AD336CC1760}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44BA3336-1888-4D43-BFF4-7AD336CC1760}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{44BA3336-1888-4D43-BFF4-7AD336CC1760}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{44BA3336-1888-4D43-BFF4-7AD336CC1760}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{44BA3336-1888-4D43-BFF4-7AD336CC1760}.Release|iPhone.Build.0 = Release|Any CPU
+		{44BA3336-1888-4D43-BFF4-7AD336CC1760}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{44BA3336-1888-4D43-BFF4-7AD336CC1760}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{44BA3336-1888-4D43-BFF4-7AD336CC1760}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{44BA3336-1888-4D43-BFF4-7AD336CC1760}.Debug|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{428B6BC8-7FBF-42FD-BE4F-0838FF9B821F} = {A852FE01-61FD-447C-A22A-152D643B1787}
 		{EFE94C7E-2507-449D-BF80-C94B0947FA45} = {A852FE01-61FD-447C-A22A-152D643B1787}
 		{C8526C68-0473-4DF0-9099-59409CCAFBF4} = {A852FE01-61FD-447C-A22A-152D643B1787}
-		{75A4D3B0-B5A2-46A9-BB02-E1CC0DF9B3B0} = {A852FE01-61FD-447C-A22A-152D643B1787}
 		{FD6B628B-424C-4C7E-8DC9-79A4B72D4BCE} = {72FF8B5F-41E7-4337-B4A8-49B13870D18F}
+		{44BA3336-1888-4D43-BFF4-7AD336CC1760} = {A852FE01-61FD-447C-A22A-152D643B1787}
 	EndGlobalSection
 EndGlobal
