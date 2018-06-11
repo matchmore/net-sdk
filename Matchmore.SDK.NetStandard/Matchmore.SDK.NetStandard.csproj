@@ -12,11 +12,11 @@
     <PackageProjectUrl>https://matchmore.io/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/matchmore/net-sdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags />
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.0" />
   </ItemGroup>
 
   <Import Project="..\Matchmore.SDK.Shared\Matchmore.SDK.Shared.projitems" Label="Shared" />

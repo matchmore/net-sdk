@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E810279C-1B58-467C-AEF9-001CF9B72484}</ProjectGuid>
     <Description>`Matchmore` is a contextualized publish/subscribe model which can be used to model any geolocated or proximity based mobile applications. Save time and make development easier by using our SDK.</Description>
-    <PackageId>Matchmore.SDK</PackageId>
-    <PackageVersion>0.7.7</PackageVersion>
+    <PackageId>Matchmore.SDK.Xamarin</PackageId>
+    <PackageVersion>0.7.8</PackageVersion>
     <Authors>matchmore</Authors>
     <DevelopmentDependency>false</DevelopmentDependency>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -15,7 +15,7 @@
     <RootNamespace>SDK.NuGet</RootNamespace>
     <UsePartialTypes>false</UsePartialTypes>
     <AssemblyName>SDK.NuGet</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <Title>Matchmore.SDK</Title>
     <Summary>
 `Matchmore` is a contextualized publish/subscribe model which can be used to model any geolocated or proximity based mobile applications. Save time and make development easier by using our SDK.</Summary>

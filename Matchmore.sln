@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmore.SDK.Android", "Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmore.SDK.iOS", "Matchmore.SDK.iOS\Matchmore.SDK.iOS.csproj", "{BEBA88A3-BC31-4A94-9896-FC2EFE5EB709}"
 EndProject
-Project("{FF286327-C783-4F7A-AB73-9BCBAD0D4460}") = "Matchmore.SDK.NuGet", "Matchmore.SDK.NuGet\Matchmore.SDK.NuGet.nuproj", "{E810279C-1B58-467C-AEF9-001CF9B72484}"
+Project("{5DD5E4FA-CB73-4610-85AB-557B54E96AA9}") = "Matchmore.SDK.Xamarin.NuGet", "Matchmore.SDK.NuGet\Matchmore.SDK.Xamarin.NuGet.nuproj", "{E810279C-1B58-467C-AEF9-001CF9B72484}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A852FE01-61FD-447C-A22A-152D643B1787}"
 EndProject
@@ -22,13 +22,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmore.SDK.iOS.Tests", "
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Matchmore.SDK.Xamarin.Shared", "Matchmore.SDK.Xamarin.Shared\Matchmore.SDK.Xamarin.Shared.shproj", "{8C498710-46A8-4FB0-BFD3-51AFF383CB41}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matchmore.SDK.NetStandard", "Matchmore.SDK.NetStandard\Matchmore.SDK.NetStandard.csproj", "{88E6B161-B03A-4403-B729-E7B5A7A0E499}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmore.SDK.NetStandard", "Matchmore.SDK.NetStandard\Matchmore.SDK.NetStandard.csproj", "{88E6B161-B03A-4403-B729-E7B5A7A0E499}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{72FF8B5F-41E7-4337-B4A8-49B13870D18F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleExample", "ConsoleExample\ConsoleExample.csproj", "{FD6B628B-424C-4C7E-8DC9-79A4B72D4BCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleExample", "ConsoleExample\ConsoleExample.csproj", "{FD6B628B-424C-4C7E-8DC9-79A4B72D4BCE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matchmore.SDK.NetStandard.Tests", "Matchmore.SDK.NetStandard.Tests\Matchmore.SDK.NetStandard.Tests.csproj", "{44BA3336-1888-4D43-BFF4-7AD336CC1760}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmore.SDK.NetStandard.Tests", "Matchmore.SDK.NetStandard.Tests\Matchmore.SDK.NetStandard.Tests.csproj", "{44BA3336-1888-4D43-BFF4-7AD336CC1760}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
