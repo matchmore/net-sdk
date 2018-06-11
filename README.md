@@ -4,8 +4,10 @@
 
 ## Installation
 
-You can install the SDK directly from Nuget
+You can install the SDK directly from Nuget for .NET Standard
 https://www.nuget.org/packages/Matchmore.SDK/
+
+Or https://www.nuget.org/packages/Matchmore.SDK.Xamarin/ for xamarin builds
 
 ## Usage
 

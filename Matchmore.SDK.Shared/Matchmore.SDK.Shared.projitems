@@ -34,6 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Monitors\PollingMatchMonitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Monitors\WebsocketMatchMonitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Monitors\AuxiliaryMatchMonitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Communication\" />

@@ -15,57 +15,60 @@ namespace Matchmore.SDK.Persistence
         private State _state;
         private string _env;
         private string _persistenceFile;
-		private bool _isLoaded;
+        private string _persistenceDirectory;
+        private bool _isLoaded;
 
-		public virtual string PersistenceDirectory => "";
+        public virtual string PersistenceDirectory => _persistenceDirectory ?? "";
 
-		public string PersistenceFileName => _persistenceFile;
+        public string PersistenceFileName => _persistenceFile;
 
-		public string PersistencePath => Path.Combine(PersistenceDirectory, PersistenceFileName);
+        public string PersistencePath => Path.Combine(PersistenceDirectory, PersistenceFileName);
 
         public Device MainDevice
         {
             get
             {
-				if (_state == null)
-				{
-					return null;
-				}
-				return _state.MainDevice;
-			}
+                if (_state == null)
+                {
+                    return null;
+                }
+                return _state.MainDevice;
+            }
         }
 
-		public void SetMainDevice(Device device){
-			if (_state == null)
+        public void SetMainDevice(Device device)
+        {
+            if (_state == null)
             {
                 _state = new State();
             }
 
             _state.MainDevice = device;
-			Save();
-		}
+            Save();
+        }
 
 
-		public IEnumerable<Subscription> ActiveSubscriptions => _state.Subscriptions.Where(pub => pub.IsAlive());
+        public IEnumerable<Subscription> ActiveSubscriptions => _state.Subscriptions.Where(pub => pub.IsAlive());
 
-		public IEnumerable<Publication> ActivePublications => _state.Publications.Where(pub => pub.IsAlive());
+        public IEnumerable<Publication> ActivePublications => _state.Publications.Where(pub => pub.IsAlive());
 
-		public void PruneDead()
+        public void PruneDead()
         {
-			_state.Publications = ActivePublications.ToList();
-			_state.Subscriptions = ActiveSubscriptions.ToList();
+            _state.Publications = ActivePublications.ToList();
+            _state.Subscriptions = ActiveSubscriptions.ToList();
 
             Save();
-        }      
+        }
 
-		public IEnumerable<Device> Devices => _state.Devices.AsReadOnly();
+        public IEnumerable<Device> Devices => _state.Devices.AsReadOnly();
 
-		public bool IsLoaded => _isLoaded;
+        public bool IsLoaded => _isLoaded;
 
-		public SimpleJsonStateRepository(string env, string persistenceFile = null)
+        public SimpleJsonStateRepository(string env = "prod", string persistenceFile = null, string persistenceDirectory = null)
         {
             _env = env;
             _persistenceFile = string.IsNullOrEmpty(persistenceFile) ? "state.data" : persistenceFile;
+            _persistenceDirectory = persistenceDirectory;
         }
 
         public void WipeData()
@@ -88,7 +91,7 @@ namespace Matchmore.SDK.Persistence
             {
                 _state = new State()
                 {
-                    Environment = _env  
+                    Environment = _env
                 };
                 return;
             }
@@ -100,7 +103,7 @@ namespace Matchmore.SDK.Persistence
                 if (IsCorrectEnv(state))
                 {
                     _state = state;
-					_isLoaded = true;
+                    _isLoaded = true;
                 }
                 else
                 {
@@ -109,9 +112,9 @@ namespace Matchmore.SDK.Persistence
             }
         }
 
-		private bool IsCorrectEnv(State state) => state.Environment == _env;
+        private bool IsCorrectEnv(State state) => state.Environment == _env;
 
-		void Save()
+        void Save()
         {
             if (_state.IsDirty())
             {
@@ -134,14 +137,14 @@ namespace Matchmore.SDK.Persistence
             Save();
         }
 
-		public void RemoveSubscription(Subscription sub)
+        public void RemoveSubscription(Subscription sub)
         {
-			var subToDelete = _state.Subscriptions.FirstOrDefault(p => sub.Id == p.Id);
+            var subToDelete = _state.Subscriptions.FirstOrDefault(p => sub.Id == p.Id);
             if (subToDelete == null)
                 return;
-			_state.Subscriptions.Remove(subToDelete);   
-			Save();
-		}
+            _state.Subscriptions.Remove(subToDelete);
+            Save();
+        }
 
         public void AddPublication(Publication pub)
         {
@@ -149,32 +152,32 @@ namespace Matchmore.SDK.Persistence
             Save();
         }
 
-		public void RemovePublication(Publication pub)
+        public void RemovePublication(Publication pub)
         {
-			var pubToDelete = _state.Publications.FirstOrDefault(p => pub.Id == p.Id);
-			if (pubToDelete == null)
-				return;
-			_state.Publications.Remove(pubToDelete);
-			Save();
-        }
-
-		public void UpsertDevice(Device device)
-        {
-			var existing = _state.Devices.FirstOrDefault(d => device.Id == d.Id);
-			if (existing!=null)
-				_state.Devices.Remove(existing);
-
-			_state.Devices.Add(device);
+            var pubToDelete = _state.Publications.FirstOrDefault(p => pub.Id == p.Id);
+            if (pubToDelete == null)
+                return;
+            _state.Publications.Remove(pubToDelete);
             Save();
         }
 
-		public void RemoveDevice(Device device)
+        public void UpsertDevice(Device device)
         {
-			var pinToDelete = _state.Devices.FirstOrDefault(p => device.Id == p.Id);
+            var existing = _state.Devices.FirstOrDefault(d => device.Id == d.Id);
+            if (existing != null)
+                _state.Devices.Remove(existing);
+
+            _state.Devices.Add(device);
+            Save();
+        }
+
+        public void RemoveDevice(Device device)
+        {
+            var pinToDelete = _state.Devices.FirstOrDefault(p => device.Id == p.Id);
             if (pinToDelete == null)
                 return;
-			_state.Devices.Remove(pinToDelete);
-            Save();        
-		}
-	}
+            _state.Devices.Remove(pinToDelete);
+            Save();
+        }
+    }
 }
