@@ -1,8 +1,6 @@
 ﻿using System.Reflection;
-using System.Threading.Tasks;
 using Android.App;
 using Android.OS;
-using Matchmore.SDK.Persistence;
 using Xamarin.Android.NUnitLite;
 
 namespace SDK.Androind.Tests

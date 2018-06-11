@@ -36,9 +36,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Monitors\AuxiliaryMatchMonitor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)project.json" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Communication\" />
     <Folder Include="$(MSBuildThisFileDirectory)Monitors\" />
   </ItemGroup>
