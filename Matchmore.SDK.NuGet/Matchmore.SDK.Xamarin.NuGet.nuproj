@@ -42,10 +42,6 @@
       <Project>{BEBA88A3-BC31-4A94-9896-FC2EFE5EB709}</Project>
       <Name>Matchmore.SDK.iOS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Matchmore.SDK.NetStandard\Matchmore.SDK.NetStandard.csproj">
-      <Project>{88E6B161-B03A-4403-B729-E7B5A7A0E499}</Project>
-      <Name>Matchmore.SDK.NetStandard</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NuGet.Build.Packaging">
