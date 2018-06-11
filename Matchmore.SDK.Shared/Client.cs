@@ -102,7 +102,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -115,7 +115,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -188,7 +188,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -201,7 +201,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -280,7 +280,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -293,7 +293,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -374,7 +374,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -456,7 +456,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -475,7 +475,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -554,7 +554,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -567,7 +567,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -652,7 +652,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -666,7 +666,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<Match>("Match not found.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -680,7 +680,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -764,7 +764,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -783,7 +783,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -862,7 +862,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -875,7 +875,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -960,7 +960,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -973,7 +973,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -1060,7 +1060,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -1142,14 +1142,14 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
                         if (status_ == "403") 
                         {
                             var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            throw new SwaggerException("The subscription was invalid, for example, the duration is negative.", (int)response_.StatusCode, responseData_, headers_, null);
+                            throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, null);
                         }
                         else
                         {
@@ -1161,7 +1161,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -1240,7 +1240,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -1253,7 +1253,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -1338,7 +1338,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -1351,7 +1351,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -1438,7 +1438,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -1524,7 +1524,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
@@ -1608,7 +1608,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                         }
                         else
@@ -1621,7 +1621,7 @@ namespace Matchmore.SDK
                             } 
                             catch (System.Exception exception_) 
                             {
-                                throw new SwaggerException("Could not deserialize the response body.", (int)response_.StatusCode, responseData_, headers_, exception_);
+                                throw new SwaggerException(responseData_, (int)response_.StatusCode, responseData_, headers_, exception_);
                             }
                             throw new SwaggerException<APIError>("Unexpected error.", (int)response_.StatusCode, responseData_, headers_, result_, null);
                         }
