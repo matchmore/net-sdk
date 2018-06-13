@@ -30,6 +30,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleExample", "ConsoleEx
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matchmore.SDK.NetStandard.Tests", "Matchmore.SDK.NetStandard.Tests\Matchmore.SDK.NetStandard.Tests.csproj", "{44BA3336-1888-4D43-BFF4-7AD336CC1760}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{32182D83-4FF0-4178-A4AE-C5C909A796C2}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Matchmore.SDK.Shared.Tests\Matchmore.SDK.Shared.Tests.projitems*{428b6bc8-7fbf-42fd-be4f-0838ff9b821f}*SharedItemsImports = 4

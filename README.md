@@ -8,6 +8,7 @@ You can install the SDK directly from Nuget for .NET Standard
 https://www.nuget.org/packages/Matchmore.SDK/
 
 Or https://www.nuget.org/packages/Matchmore.SDK.Xamarin/ for xamarin builds
+For Xamarin we come with some defaults for your application and accessing location services and persisting state.
 
 ## Usage
 
@@ -19,11 +20,15 @@ async Task SetupMatchmore()
 }
 ```
 
+If you are using the sdk in a server application or similar, please refer to the customization section
+
+
 Create first device, publication and subscription. Please note that we're not caring about errors right now.
 ```csharp
 //call this before you can operate on default operations
 await Matchmore.SDK.Matchmore.Instance.SetupMainDeviceAsync();
 
+//this will only work if you are using the xamarin package or provide your own custom ILocationService
 Matchmore.SDK.Matchmore.Instance.StartLocationService();
 
 //you can access the device later by calling Matchmore.SDK.Matchmore.Instance.MainDevice
@@ -131,6 +136,17 @@ public override void ReceivedRemoteNotification (UIApplication application, NSDi
 }
 ```
 
+## Customization
+The shown ConfigureAsync method is a shorthand, you can pass config object contain more information, like implementations for location services, state repositories
+```csharp
+await Matchmore.SDK.Matchmore.ConfigureAsync(new GenericConfig {
+                ApiKey = "YOUR_API_KEY",
+                LocationService = myLocationService, //implements ILocationService
+                StateManager = myStateManager, // implements IStateRepository
+            });
+```
+
+
 Additional info you might find useful
 [how to setup APNS](https://github.com/matchmore/alps-ios-sdk/blob/master/ApnsSetup.md).
 [fcm in xamarin](https://docs.microsoft.com/en-us/xamarin/android/data-cloud/google-messaging/remote-notifications-with-fcm?tabs=vswin)
@@ -144,7 +160,7 @@ See the [http://matchmore.io/documentation/api](http://matchmore.io/documentatio
 
 To run tests for .NET Standard use `dotnet` command line utility
 ```
-dotnet test SDK.Tests/SDK.NetStandard.Tests.csproj
+dotnet test Matchmore.SDK.NetStandard.Tests/Matchmore.SDK.NetStandard.Tests.csproj
 ```
 
 Other devices can be run from visual studio
