@@ -6,6 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SDK.NetStandard\SDK.NetStandard.csproj" />
+    <ProjectReference Include="..\Matchmore.SDK.NetStandard\Matchmore.SDK.NetStandard.csproj" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.10.0/build/netcoreapp1.0/Mono.Cecil.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.10.0/build/netcoreapp1.0/nunit.engine.netstandard.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.10.0/build/netcoreapp1.0/NUnit3.TestAdapter.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.10.0/build/netcoreapp1.0/NUnit3.TestAdapter.pdb" t="Include" />
+    <e p="$USER_HOME$/Library/Caches/Rider2017.3/resharper-host/local/Transient/ReSharperHost/v11/SolutionCaches/_Matchmore.-1434605529.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="ConsoleExample" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ConsoleExample.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="ConsoleExample.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="state.data" t="Include" />
+      </e>
+      <e p="Examples" t="Include" />
+      <e p="Matchmore.sln" t="IncludeFlat" />
+      <e p="NSwagGenerator" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="NSwagGenerator.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive">
+        <e p="Xamarin.Android.Arch.Lifecycle.Runtime.1.0.3/proguard" t="Include">
+          <e p="proguard.txt" t="Include" />
+        </e>
+        <e p="Xamarin.Android.Support.Animated.Vector.Drawable.27.0.2/proguard" t="Include">
+          <e p="proguard.txt" t="Include" />
+        </e>
+        <e p="Xamarin.Android.Support.Core.UI.27.0.2/proguard" t="Include">
+          <e p="proguard.txt" t="Include" />
+        </e>
+        <e p="Xamarin.Android.Support.Design.27.0.2/proguard" t="Include">
+          <e p="proguard.txt" t="Include" />
+        </e>
+        <e p="Xamarin.Android.Support.Media.Compat.27.0.2/proguard" t="Include">
+          <e p="proguard.txt" t="Include" />
+        </e>
+        <e p="Xamarin.Android.Support.Transition.27.0.2/proguard" t="Include">
+          <e p="proguard.txt" t="Include" />
+        </e>
+        <e p="Xamarin.Android.Support.v7.RecyclerView.27.0.2/proguard" t="Include">
+          <e p="proguard.txt" t="Include" />
+        </e>
+      </e>
+      <e p="Matchmore.SDK.Android" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ConfigBuilder.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Matchmore.SDK.Android.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Matchmore.SDK.Androind.Tests" t="IncludeRecursive">
+        <e p="Assets" t="Include">
+          <e p="AboutAssets.txt" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="MainActivity.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AndroidManifest.xml" t="Include" />
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Resources" t="Include">
+          <e p="AboutResources.txt" t="Include" />
+          <e p="mipmap-hdpi" t="Include">
+            <e p="Icon.png" t="Include" />
+          </e>
+          <e p="mipmap-mdpi" t="Include">
+            <e p="Icon.png" t="Include" />
+          </e>
+          <e p="mipmap-xhdpi" t="Include">
+            <e p="Icon.png" t="Include" />
+          </e>
+          <e p="mipmap-xxhdpi" t="Include">
+            <e p="Icon.png" t="Include" />
+          </e>
+          <e p="mipmap-xxxhdpi" t="Include">
+            <e p="Icon.png" t="Include" />
+          </e>
+          <e p="Resource.designer.cs" t="Include" />
+        </e>
+        <e p="Matchmore.SDK.Androind.Tests.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Matchmore.SDK.iOS" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ConfigBuilder.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Matchmore.SDK.iOS.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Matchmore.SDK.iOS.Tests" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Entitlements.plist" t="Include" />
+        <e p="Info.plist" t="Include" />
+        <e p="LaunchScreen.storyboard" t="Include" />
+        <e p="Main.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Matchmore.SDK.iOS.Tests.csproj" t="IncludeRecursive" />
+        <e p="UnitTestAppDelegate.cs" t="Include" />
+      </e>
+      <e p="Matchmore.SDK.NetStandard" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.0" t="Include">
+              <e p="Matchmore.SDK.NetStandard.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Matchmore.SDK.NetStandard.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Matchmore.SDK.NuGet" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Matchmore.SDK.NuGet.nuproj" t="IncludeRecursive" />
+      </e>
+      <e p="Matchmore.SDK.Shared" t="IncludeRecursive">
+        <e p="BaseClient.cs" t="Include" />
+        <e p="Client.cs" t="Include" />
+        <e p="Communication" t="Include">
+          <e p="APNSTokenUpdate.cs" t="Include" />
+          <e p="FCMTokenUpdate.cs" t="Include" />
+          <e p="IMatchChannelUpdate.cs" t="Include" />
+        </e>
+        <e p="Events" t="Include">
+          <e p="LocationUpdatedEventArgs.cs" t="Include" />
+          <e p="MatchReceivedEventArgs.cs" t="Include" />
+        </e>
+        <e p="Extensions" t="Include">
+          <e p="Extensions.cs" t="Include" />
+        </e>
+        <e p="GenericConfig.cs" t="Include" />
+        <e p="IConfig.cs" t="Include" />
+        <e p="IDeviceInfoProvider.cs" t="Include" />
+        <e p="LocationProviders.cs" t="Include" />
+        <e p="MatchChannel.cs" t="Include" />
+        <e p="MatchId.cs" t="Include" />
+        <e p="Matchmore.cs" t="Include" />
+        <e p="MatchmoreException.cs" t="Include" />
+        <e p="Monitors" t="Include">
+          <e p="AuxiliaryMatchMonitor.cs" t="Include" />
+          <e p="IMatchMonitor.cs" t="Include" />
+          <e p="MultiChannelMatchMonitor.cs" t="Include" />
+          <e p="PollingMatchMonitor.cs" t="Include" />
+          <e p="WebsocketMatchMonitor.cs" t="Include" />
+        </e>
+        <e p="Persistence" t="Include">
+          <e p="IStateRepository.cs" t="Include" />
+          <e p="SimpleJsonStateRepository.cs" t="Include" />
+          <e p="State.cs" t="Include" />
+        </e>
+        <e p="project.json" t="Include" />
+        <e p="RecurrentCancellableTask.cs" t="Include" />
+        <e p="Matchmore.SDK.Shared.projitems" t="Include" />
+        <e p="Matchmore.SDK.Shared.shproj" t="IncludeRecursive" />
+      </e>
+      <e p="Matchmore.SDK.Shared.Tests" t="IncludeRecursive">
+        <e p="CRUDTest.cs" t="Include" />
+        <e p="InitTests.cs" t="Include" />
+        <e p="LocationServiceTest.cs" t="Include" />
+        <e p="MatchTests.cs" t="Include" />
+        <e p="Matchmore.SDK.Shared.Tests.projitems" t="Include" />
+        <e p="Matchmore.SDK.Shared.Tests.shproj" t="IncludeRecursive" />
+        <e p="TestBase.cs" t="Include" />
+        <e p="ThirdPartyMatchProviderTest.cs" t="Include" />
+        <e p="TimeoutAttribute.cs" t="Include" />
+        <e p="Utils.cs" t="Include" />
+      </e>
+      <e p="Matchmore.SDK.Tests" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Matchmore.SDK.NetStandard.Tests.AssemblyInfo.cs" t="Include" />
+              <e p="Matchmore.SDK.NetStandard.Tests.Program.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Matchmore.SDK.NetStandard.Tests.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Matchmore.SDK.Xamarin.Shared" t="IncludeRecursive">
+        <e p="GeoPluginLocationService.cs" t="Include" />
+        <e p="MobileConfig.cs" t="Include" />
+        <e p="MobileStateManager.cs" t="Include" />
+        <e p="Matchmore.SDK.Xamarin.Shared.projitems" t="Include" />
+        <e p="Matchmore.SDK.Xamarin.Shared.shproj" t="IncludeRecursive" />
+        <e p="SimpleDeviceInfo.cs" t="Include" />
+      </e>
+      <e p="Tests" t="Include" />
+    </e>
+  </component>
+</project>

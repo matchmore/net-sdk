@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.7.8</Version>
+    <Authors>matchmore</Authors>
+    <PackageId>Matchmore.SDK</PackageId>
+    <Product>Matchmore.SDK</Product>
+    <Description>`Matchmore` is a contextualized publish/subscribe model which can be used to model any geolocated or proximity based mobile applications. Save time and make development easier by using our SDK.</Description>
+    <PackageIconUrl>https://matchmore.com/static/img/logo/logo_marina_trans.png</PackageIconUrl>
+    <PackageProjectUrl>https://matchmore.io/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/matchmore/net-sdk</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <Import Project="..\Matchmore.SDK.Shared\Matchmore.SDK.Shared.projitems" Label="Shared" />
+
+</Project>

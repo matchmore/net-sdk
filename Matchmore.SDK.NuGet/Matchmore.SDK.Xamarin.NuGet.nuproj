@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.props" Condition="Exists('$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E810279C-1B58-467C-AEF9-001CF9B72484}</ProjectGuid>
+    <Description>`Matchmore` is a contextualized publish/subscribe model which can be used to model any geolocated or proximity based mobile applications. Save time and make development easier by using our SDK.</Description>
+    <PackageId>Matchmore.SDK.Xamarin</PackageId>
+    <PackageVersion>0.7.8</PackageVersion>
+    <Authors>matchmore</Authors>
+    <DevelopmentDependency>false</DevelopmentDependency>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SDK.NuGet</RootNamespace>
+    <UsePartialTypes>false</UsePartialTypes>
+    <AssemblyName>SDK.NuGet</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <Title>Matchmore.SDK</Title>
+    <Summary>
+`Matchmore` is a contextualized publish/subscribe model which can be used to model any geolocated or proximity based mobile applications. Save time and make development easier by using our SDK.</Summary>
+    <PackageProjectUrl>https://matchmore.io/</PackageProjectUrl>
+    <Owners>matchmore</Owners>
+    <PackageIconUrl>https://matchmore.com/static/img/logo/logo_marina_trans.png</PackageIconUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputPath>bin\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Matchmore.SDK.Android\Matchmore.SDK.Android.csproj">
+      <Project>{7B437765-F453-4382-9124-BD820D38B2E1}</Project>
+      <Name>Matchmore.SDK.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Matchmore.SDK.iOS\Matchmore.SDK.iOS.csproj">
+      <Project>{BEBA88A3-BC31-4A94-9896-FC2EFE5EB709}</Project>
+      <Name>Matchmore.SDK.iOS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NuGet.Build.Packaging">
+      <Version>0.2.2</Version>
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.2</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+  <Import Project="$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.targets" Condition="Exists('$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.targets')" />
+</Project>
