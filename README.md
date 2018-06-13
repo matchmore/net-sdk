@@ -7,7 +7,7 @@
 You can install the SDK directly from Nuget for .NET Standard
 https://www.nuget.org/packages/Matchmore.SDK/
 
-Or https://www.nuget.org/packages/Matchmore.SDK.Xamarin/ for xamarin builds
+Or https://www.nuget.org/packages/Matchmore.Xamarin.SDK/ for xamarin builds
 For Xamarin we come with some defaults for your application and accessing location services and persisting state.
 
 ## Usage

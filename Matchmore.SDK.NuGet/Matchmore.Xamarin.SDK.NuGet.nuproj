@@ -16,7 +16,7 @@
     <UsePartialTypes>false</UsePartialTypes>
     <AssemblyName>SDK.NuGet</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
-    <Title>Matchmore.SDK</Title>
+    <Title>Matchmore.Xamarin.SDK</Title>
     <Summary>
 `Matchmore` is a contextualized publish/subscribe model which can be used to model any geolocated or proximity based mobile applications. Save time and make development easier by using our SDK.</Summary>
     <PackageProjectUrl>https://matchmore.io/</PackageProjectUrl>
