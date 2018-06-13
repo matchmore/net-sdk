@@ -15,5 +15,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Matchmore.SDK.NetStandard\Matchmore.SDK.NetStandard.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
   <Import Project="..\Matchmore.SDK.Shared.Tests\Matchmore.SDK.Shared.Tests.projitems" Label="Shared" Condition="Exists('..\Matchmore.SDK.Shared.Tests\Matchmore.SDK.Shared.Tests.projitems')" />
 </Project>

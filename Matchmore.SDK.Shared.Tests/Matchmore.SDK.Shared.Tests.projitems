@@ -6,10 +6,10 @@
     <SharedGUID>{EFE94C7E-2507-449D-BF80-C94B0947FA45}</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>SDK.Shared.Tests</Import_RootNamespace>
+    <Import_RootNamespace>Matchmore.Tests</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)MatchTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchByWebsocketMonitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InitTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestBase.cs" />
@@ -17,5 +17,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)CRUDTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThirdPartyMatchProviderTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeoutAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchTestBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchByExplicitCall.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchByPollingMonitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchForOtherDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchByMultiChannelMonitor.cs" />
   </ItemGroup>
 </Project>

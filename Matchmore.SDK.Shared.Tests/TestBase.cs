@@ -12,7 +12,7 @@ using Matchmore.SDK.Xamarin.Shared;
 namespace Matchmore.Tests
 {
 	public class TestBase
-    {   public string apiKey = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJhbHBzIiwic3ViIjoiMzIzMmY3NTYtMzkzYi00OWM2LTgxMjItMzBlNTI5NDZiOWVkIiwiYXVkIjpbIlB1YmxpYyJdLCJuYmYiOjE1MjIxNTk3NTUsImlhdCI6MTUyMjE1OTc1NSwianRpIjoiMSJ9.6Ay0Ollaf1Wl1WXSyvb6B0_62fr74TYYFV0VykmORAL0sELzAMBvAXukFEeVYwwGv5W99AL-qVwzTj2UWn05ig";
+    {   public string apiKey = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJhbHBzIiwic3ViIjoiYjRlZDJjZGEtZjRjNy00ZjMzLWJjYjQtNTA2ODhiM2M3ZWU3IiwiYXVkIjpbIlB1YmxpYyJdLCJuYmYiOjE1Mjg4MDUxMzIsImlhdCI6MTUyODgwNTEzMiwianRpIjoiMSJ9.ftdHSXUGfosslvXCDBk6KBQQBL-qFN1BuaGzmAYP0507nTwl4IPKw6DS1ShjbsrU5NEjqFeNxINjNLIapG4fvA";
 		protected static Matchmore.SDK.Matchmore _instance;
 
 		protected Subscription sub = new Subscription
@@ -59,7 +59,7 @@ namespace Matchmore.Tests
 			});
 			Task.WaitAll(r);
 			TaskScheduler.UnobservedTaskException += (s, e) => {
-
+                
 			};
 
 		}
