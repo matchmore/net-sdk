@@ -12,17 +12,21 @@ namespace Matchmore.SDK.Monitors
 
     public class WebsocketMatchMonitor : IMatchMonitor
     {
-		readonly Matchmore _client;
-		readonly Device _deviceToSubscribe;
+        readonly Matchmore _client;
+        readonly Device _deviceToSubscribe;
         readonly string _worldId;
+        string _uri;
         ClientWebSocket _ws;
         CancellationTokenSource _cancelationTokenSource;
+        public bool HasError { get; private set; }
+        public Exception LastException { get; private set; }
+
 
         public WebsocketMatchMonitor(Matchmore client, Device deviceToSubscribe, string worldId)
         {
             _client = client;
             _deviceToSubscribe = deviceToSubscribe;
-            _worldId = worldId;         
+            _worldId = worldId;
         }
 
         public async Task Start()
@@ -32,12 +36,19 @@ namespace Matchmore.SDK.Monitors
             _ws.Options.AddSubProtocol("api-key");
             _ws.Options.AddSubProtocol(_worldId);
 
-            var uri = _client.ApiUrl
+            _uri = _client.ApiUrl
                   .Replace("http://", "ws://")
                   .Replace("https://", "wss://")
                   .Replace("/v5", "/pusher/v5/ws/" + _deviceToSubscribe.Id);
+            try
+            {
+                await _ws.ConnectAsync(new Uri(_uri), _cancelationTokenSource.Token);
+            }
+            catch (Exception e)
+            {
+                throw new MatchmoreException("Websocket match error", e);
+            }
 
-            await _ws.ConnectAsync(new Uri(uri), _cancelationTokenSource.Token);
             await Task.Factory.StartNew(async () =>
             {
                 while (true)
@@ -46,12 +57,10 @@ namespace Matchmore.SDK.Monitors
                     {
                         await ReadMessage();
                     }
-                    catch (WebSocketException)
+                    catch (WebSocketException e)
                     {
-                        await Task.Delay(2000);
-                        _cancelationTokenSource.Cancel();
-                        await Start();
-
+                        LastException = e;
+                        HasError = true;
                     }
 
                 }

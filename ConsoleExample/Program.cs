@@ -22,6 +22,8 @@ namespace ConsoleExample
             //you can access the device later by calling Matchmore.SDK.Matchmore.Instance.MainDevice
             await Matchmore.SDK.Matchmore.Instance.SetupMainDeviceAsync();
 
+            var monitor = Matchmore.SDK.Matchmore.Instance.SubscribeMatches();
+
             // Create the subscription
             var sub = new Subscription
             {
@@ -56,7 +58,7 @@ namespace ConsoleExample
 
             // To receive matches, you need to create a monitor
             //default params of .SubscribeMatches() use your main device, Polling and Websocket as a channel delivery mechanism
-            var monitor = Matchmore.SDK.Matchmore.Instance.SubscribeMatches();
+
 
             monitor.MatchReceived += (object sender, MatchReceivedEventArgs e) =>
             {

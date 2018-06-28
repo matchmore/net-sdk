@@ -44,10 +44,23 @@ namespace Matchmore.SDK.Monitors
         {
             if (_matchMonitors == null)
                 return;
+
+            var multiException = new MatchmoreMultiException();
+
             foreach (var monitor in _matchMonitors)
             {
-                await monitor.Start();
+                try
+                {
+                    await monitor.Start();
+                }
+                catch (Exception e)
+                {
+                    multiException.Exceptions.Add(e);
+                }
             }
+
+            if (multiException.Exceptions.Count > 0)
+                throw multiException;
 
             return;
         }
