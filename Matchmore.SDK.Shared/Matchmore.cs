@@ -560,8 +560,9 @@ namespace Matchmore.SDK
 				monitor = monitors.Single();
 			else
 				monitor = new MultiChannelMatchMonitor(monitors.ToArray());
+            
 			UpsertMonitor(deviceToSubscribe, monitor);
-            monitor.Start();
+            monitor.Start().GetAwaiter().GetResult();
 			return monitor;
 		}
 
